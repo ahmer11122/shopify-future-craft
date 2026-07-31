@@ -20,9 +20,8 @@ function Card({ product, index, onAdd }: { product: Product; index: number; onAd
 
   return (
     <article
-      data-reveal
-      style={{ transitionDelay: `${(index % 4) * 70}ms` }}
-      className="reveal-up group"
+      style={{ animationDelay: `${(index % 4) * 70}ms` }}
+      className="reveal group"
     >
       <div className="relative aspect-[4/5.5] overflow-hidden bg-sand">
         <img
