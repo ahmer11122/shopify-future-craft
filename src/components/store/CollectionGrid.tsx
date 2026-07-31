@@ -52,7 +52,7 @@ function Card({ product, index, onAdd }: { product: Product; index: number; onAd
         <button
           onClick={() => setLiked((v) => !v)}
           aria-label={liked ? "Remove from wishlist" : "Save to wishlist"}
-          className="absolute right-3 top-3 grid h-9 w-9 place-items-center bg-background/80 backdrop-blur-sm transition-all duration-400 hover:bg-background sm:translate-y--1 sm:opacity-0 sm:group-hover:opacity-100"
+          className="absolute right-3 top-3 grid h-9 w-9 place-items-center bg-background/80 backdrop-blur-sm transition-all duration-400 hover:bg-background sm:opacity-0 sm:group-hover:opacity-100"
         >
           <Heart
             className={`h-4 w-4 transition-colors ${liked ? "fill-gold text-gold" : ""}`}

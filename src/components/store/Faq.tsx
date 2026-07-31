@@ -53,7 +53,7 @@ export function Faq() {
                   <span className="font-display text-xl lg:text-2xl">{item.q}</span>
                   <Plus
                     className={`h-4 w-4 shrink-0 transition-transform duration-500 ${
-                      isOpen ? "rotate-135 text-gold" : ""
+                      isOpen ? "rotate-[135deg] text-gold" : ""
                     }`}
                     strokeWidth={1.4}
                   />
