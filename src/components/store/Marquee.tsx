@@ -18,7 +18,7 @@ const strip = [
 /** Continuously drifting editorial image rail — hover to slow it down. */
 export function ImageRail() {
   return (
-    <section className="overflow-hidden border-y border-border bg-sand/60 py-16 lg:py-20">
+    <section id="lookbook" className="overflow-hidden border-y border-border bg-sand/60 py-16 lg:py-20">
       <div className="mx-auto mb-10 flex max-w-[1400px] flex-wrap items-end justify-between gap-4 px-5 lg:px-10">
         <div data-reveal className="reveal-up">
           <p className="eyebrow text-muted-foreground">In Motion</p>
