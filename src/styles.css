@@ -402,3 +402,9 @@
     transform: none;
   }
 }
+
+@layer base {
+  section[id] {
+    scroll-margin-top: 7.5rem;
+  }
+}
