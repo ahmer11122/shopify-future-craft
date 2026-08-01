@@ -1,62 +1,62 @@
+import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
-import cat1 from "@/assets/cat1.jpg";
-import cat2 from "@/assets/cat2.jpg";
-import cat3 from "@/assets/cat3.jpg";
-import cat4 from "@/assets/cat4.jpg";
+import { collections, productsIn } from "./data";
 
-const tiles = [
-  { title: "Unstitched", count: "48 pieces", src: cat1, span: "lg:col-span-3 lg:row-span-2" },
-  { title: "Formal", count: "26 pieces", src: cat2, span: "lg:col-span-3" },
-  { title: "Stitched Lawn", count: "62 pieces", src: cat3, span: "lg:col-span-2" },
-  { title: "Dupattas", count: "19 pieces", src: cat4, span: "lg:col-span-1" },
+const spans = [
+  "lg:col-span-3 lg:row-span-2",
+  "lg:col-span-3",
+  "lg:col-span-2",
+  "lg:col-span-1",
+  "lg:col-span-3",
+  "lg:col-span-3",
 ];
 
 export function CategoryTiles() {
   return (
-    <section className="mx-auto max-w-[1400px] px-5 py-24 lg:px-10 lg:py-32">
+    <section id="collections" className="mx-auto max-w-[1400px] px-5 py-24 lg:px-10 lg:py-32">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div data-reveal className="reveal-up">
-          <p className="eyebrow text-muted-foreground">Shop by Type</p>
+          <p className="eyebrow text-muted-foreground">Shop by Category</p>
           <div className="rule-gold my-4" />
-          <h2 className="type-h2">Four rooms, nothing more</h2>
+          <h2 className="type-h2">Every room of the store</h2>
         </div>
-        <a href="#grid" className="link-line text-[0.7rem] tracking-[0.2em] uppercase">
-          Browse everything
-        </a>
+        <Link to="/collections" className="link-line text-[0.7rem] tracking-[0.2em] uppercase">
+          All Collections
+        </Link>
       </div>
 
-      <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-6 lg:gap-4">
-        {tiles.map((tile, i) => (
-          <a
-            key={tile.title}
-            href="#grid"
+      <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
+        {collections.map((c, i) => (
+          <Link
+            key={c.handle}
+            to="/collections/$handle"
+            params={{ handle: c.handle }}
             data-reveal
-            style={{ transitionDelay: `${i * 80}ms` }}
-            className={`reveal-up group relative overflow-hidden bg-sand ${tile.span}`}
+            style={{ transitionDelay: `${i * 70}ms` }}
+            className={`reveal-up group relative min-h-[15rem] overflow-hidden bg-sand ${spans[i] ?? "lg:col-span-2"}`}
           >
-            <div className={i === 0 ? "aspect-[4/5] lg:aspect-auto lg:h-full" : "aspect-[4/3]"}>
-              <img
-                src={tile.src}
-                alt={`${tile.title} category`}
-                width={900}
-                height={1100}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.07]"
-              />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/10 to-transparent" />
+            <img
+              src={c.image}
+              alt={c.title}
+              width={900}
+              height={1100}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-foreground/10 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6">
               <div>
-                <h3 className="font-display text-2xl text-background lg:text-3xl">{tile.title}</h3>
-                <p className="mt-1 text-[0.62rem] tracking-[0.18em] uppercase text-background/70">
-                  {tile.count}
+                <p className="num text-[0.6rem] tracking-[0.2em] uppercase text-background/70">
+                  {String(productsIn(c).length).padStart(2, "0")} pieces
                 </p>
+                <p className="mt-1.5 font-display text-2xl text-background lg:text-3xl">{c.title}</p>
               </div>
-              <span className="grid h-10 w-10 shrink-0 place-items-center border border-background/40 text-background transition-all duration-400 group-hover:border-gold group-hover:bg-gold group-hover:text-accent-foreground">
-                <ArrowUpRight className="h-4 w-4" strokeWidth={1.4} />
-              </span>
+              <ArrowUpRight
+                className="h-5 w-5 shrink-0 text-background transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+                strokeWidth={1.3}
+              />
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
