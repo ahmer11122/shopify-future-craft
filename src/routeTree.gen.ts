@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
+import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
   path: '/collections/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
+  id: '/collections/$handle',
+  path: '/collections/$handle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/': typeof CollectionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/collections/$handle': typeof CollectionsHandleRoute
   '/collections': typeof CollectionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/': typeof CollectionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/collections/'
+  fullPaths: '/' | '/collections/$handle' | '/collections/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/collections'
-  id: '__root__' | '/' | '/collections/'
+  to: '/' | '/collections/$handle' | '/collections'
+  id: '__root__' | '/' | '/collections/$handle' | '/collections/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CollectionsHandleRoute: typeof CollectionsHandleRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/collections/$handle': {
+      id: '/collections/$handle'
+      path: '/collections/$handle'
+      fullPath: '/collections/$handle'
+      preLoaderRoute: typeof CollectionsHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CollectionsHandleRoute: CollectionsHandleRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
 }
 export const routeTree = rootRouteImport
