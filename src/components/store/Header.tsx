@@ -1,51 +1,138 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { ArrowRight, Menu, Search, ShoppingBag, User, X } from "lucide-react";
-import { formatPKR, products } from "./data";
+import { collections, formatPKR, products } from "./data";
+import { useCart } from "./cart";
 import cat1 from "@/assets/cat1.jpg";
 import cat2 from "@/assets/cat2.jpg";
+import cat3 from "@/assets/cat3.jpg";
 
 type NavItem = {
   label: string;
-  columns: { title: string; items: string[] }[];
-  feature: { src: string; eyebrow: string; title: string };
+  handle: string;
+  columns: { title: string; items: { label: string; handle: string }[] }[];
+  feature: { src: string; eyebrow: string; title: string; handle: string };
 };
 
 const nav: NavItem[] = [
   {
     label: "New Arrivals",
+    handle: "new-arrivals",
     columns: [
-      { title: "Just Dropped", items: ["Lawn Edit 2026", "Eid Preview", "Back In Stock", "Last 48 Hours"] },
-      { title: "By Fabric", items: ["Cambric", "Chikankari", "Slub Khaddar", "Organza"] },
+      {
+        title: "Just Dropped",
+        items: [
+          { label: "Lawn Edit 2026", handle: "lawn" },
+          { label: "Unstitched", handle: "unstitched" },
+          { label: "Stitched", handle: "stitched" },
+        ],
+      },
+      {
+        title: "By Fabric",
+        items: [
+          { label: "Cambric", handle: "lawn" },
+          { label: "Chikankari", handle: "lawn" },
+          { label: "Organza", handle: "formal" },
+        ],
+      },
     ],
-    feature: { src: cat1, eyebrow: "Spring / Summer 26", title: "The Unstitched Edit" },
+    feature: { src: cat1, eyebrow: "Spring / Summer 26", title: "The Unstitched Edit", handle: "unstitched" },
   },
   {
-    label: "Bestsellers",
+    label: "Unstitched",
+    handle: "unstitched",
     columns: [
-      { title: "Loved Most", items: ["Top 20 This Week", "Most Reviewed", "Restocked", "Under Rs. 6,000"] },
-      { title: "Occasion", items: ["Everyday", "Office", "Mehndi", "Nikkah"] },
+      {
+        title: "Shop",
+        items: [
+          { label: "Three Piece", handle: "unstitched" },
+          { label: "Embroidered", handle: "unstitched" },
+          { label: "Printed Lawn", handle: "lawn" },
+        ],
+      },
+      {
+        title: "Price",
+        items: [
+          { label: "Under Rs. 8,000", handle: "unstitched" },
+          { label: "Rs. 8—15,000", handle: "unstitched" },
+          { label: "Sale", handle: "sale" },
+        ],
+      },
     ],
-    feature: { src: cat2, eyebrow: "Formal", title: "Gulnar, restocked" },
+    feature: { src: cat3, eyebrow: "48 pieces", title: "Cut it your way", handle: "unstitched" },
   },
   {
-    label: "Shop by Type",
+    label: "Stitched",
+    handle: "stitched",
     columns: [
-      { title: "Categories", items: ["Lawn", "Stitched", "Unstitched", "Formal"] },
-      { title: "Pieces", items: ["Kurta", "Three Piece", "Dupatta", "Trousers"] },
+      {
+        title: "Ready to Wear",
+        items: [
+          { label: "Everyday Lawn", handle: "lawn" },
+          { label: "Office", handle: "stitched" },
+          { label: "Kurta Only", handle: "stitched" },
+        ],
+      },
+      {
+        title: "Sizing",
+        items: [
+          { label: "Size Guide", handle: "stitched" },
+          { label: "True to Size", handle: "stitched" },
+          { label: "Plus Sizes", handle: "stitched" },
+        ],
+      },
     ],
-    feature: { src: cat1, eyebrow: "Guide", title: "Sizing in inches" },
+    feature: { src: cat3, eyebrow: "Measured in inches", title: "Ready to wear", handle: "stitched" },
+  },
+  {
+    label: "Formals",
+    handle: "formal",
+    columns: [
+      {
+        title: "Occasion",
+        items: [
+          { label: "Mehndi", handle: "formal" },
+          { label: "Nikkah", handle: "formal" },
+          { label: "Dinner", handle: "formal" },
+        ],
+      },
+      {
+        title: "Craft",
+        items: [
+          { label: "Zari", handle: "formal" },
+          { label: "Hand Embroidery", handle: "formal" },
+          { label: "Chiffon", handle: "formal" },
+        ],
+      },
+    ],
+    feature: { src: cat2, eyebrow: "Shaadi Season", title: "Gulnar, restocked", handle: "formal" },
   },
   {
     label: "Sale",
+    handle: "sale",
     columns: [
-      { title: "Markdowns", items: ["Upto 50% Off", "Last Pieces", "Sale Formals", "Sale Lawn"] },
-      { title: "Price", items: ["Under Rs. 4,000", "Rs. 4–8,000", "Rs. 8,000+"] },
+      {
+        title: "Markdowns",
+        items: [
+          { label: "Upto 50% Off", handle: "sale" },
+          { label: "Last Pieces", handle: "sale" },
+          { label: "Sale Formals", handle: "sale" },
+        ],
+      },
+      {
+        title: "Price",
+        items: [
+          { label: "Under Rs. 4,000", handle: "sale" },
+          { label: "Rs. 4—8,000", handle: "sale" },
+          { label: "Rs. 8,000+", handle: "sale" },
+        ],
+      },
     ],
-    feature: { src: cat2, eyebrow: "Final Reductions", title: "Upto 50% off formals" },
+    feature: { src: cat2, eyebrow: "Final Reductions", title: "Upto 50% off formals", handle: "sale" },
   },
 ];
 
-const suggestions = ["Lawn 3 piece", "Eid formals", "Chikankari", "Under Rs. 6000", "Dupatta"];
+const suggestions = ["Lawn", "Formal", "Chikankari", "Gulnar", "Dupatta"];
 
 function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [q, setQ] = useState("");
@@ -80,15 +167,11 @@ function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }
 
   return (
     <div
-      className={`fixed inset-0 z-[60] transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[80] transition-opacity duration-500 ${
         open ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
-      <button
-        aria-label="Close search"
-        onClick={onClose}
-        className="absolute inset-0 bg-foreground/35 backdrop-blur-[3px]"
-      />
+      <button aria-label="Close search" onClick={onClose} className="absolute inset-0 bg-foreground/35 backdrop-blur-[3px]" />
       <div
         className={`relative border-b border-border bg-background/95 backdrop-blur-xl transition-transform duration-500 ease-out ${
           open ? "translate-y-0" : "-translate-y-6"
@@ -123,12 +206,18 @@ function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }
           </div>
 
           <div className="mt-10">
-            <p className="eyebrow text-muted-foreground">
-              {q.trim() ? `${results.length} results` : "Trending pieces"}
+            <p className="num eyebrow text-muted-foreground">
+              {q.trim() ? `${String(results.length).padStart(2, "0")} results` : "Trending pieces"}
             </p>
             <div className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
               {results.map((p) => (
-                <a key={p.id} href="#grid" onClick={onClose} className="group">
+                <Link
+                  key={p.id}
+                  to="/products/$productId"
+                  params={{ productId: p.id }}
+                  onClick={onClose}
+                  className="group"
+                >
                   <div className="aspect-[4/5] overflow-hidden bg-sand">
                     <img
                       src={p.front}
@@ -140,8 +229,8 @@ function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }
                     />
                   </div>
                   <p className="mt-3 font-display text-lg">{p.name}</p>
-                  <p className="text-[0.7rem] text-muted-foreground">{formatPKR(p.price)}</p>
-                </a>
+                  <p className="num text-[0.72rem] text-muted-foreground">{formatPKR(p.price)}</p>
+                </Link>
               ))}
               {results.length === 0 && (
                 <p className="col-span-full py-8 text-sm text-muted-foreground">
@@ -156,11 +245,14 @@ function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }
   );
 }
 
-export function Header({ onCartOpen, cartCount }: { onCartOpen: () => void; cartCount: number }) {
+export function Header() {
   const [open, setOpen] = useState<string | null>(null);
   const [mobile, setMobile] = useState(false);
   const [search, setSearch] = useState(false);
   const [solid, setSolid] = useState(false);
+  const { count, setOpen: setCartOpen } = useCart();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const overHero = pathname === "/";
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 24);
@@ -169,10 +261,27 @@ export function Header({ onCartOpen, cartCount }: { onCartOpen: () => void; cart
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    setMobile(false);
+    setOpen(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearch(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   const active = nav.find((n) => n.label === open);
+  const light = overHero && !solid && !active;
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-[70]">
       <div className="overflow-hidden bg-foreground text-background">
         <div className="flex w-max marquee-track">
           {[0, 1].map((k) => (
@@ -194,9 +303,9 @@ export function Header({ onCartOpen, cartCount }: { onCartOpen: () => void; cart
 
       <div
         className={`border-b transition-all duration-500 ${
-          solid
-            ? "border-border/70 bg-background/65 shadow-[0_1px_30px_-18px_rgba(0,0,0,0.5)] backdrop-blur-xl backdrop-saturate-150"
-            : "border-transparent bg-background/40 backdrop-blur-md"
+          light
+            ? "border-transparent bg-transparent text-background"
+            : "border-border/70 bg-background/70 text-foreground shadow-[0_1px_30px_-18px_rgba(0,0,0,0.5)] backdrop-blur-xl backdrop-saturate-150"
         }`}
         onMouseLeave={() => setOpen(null)}
       >
@@ -205,10 +314,12 @@ export function Header({ onCartOpen, cartCount }: { onCartOpen: () => void; cart
             <Menu className="h-5 w-5" strokeWidth={1.4} />
           </button>
 
-          <nav className="hidden items-center gap-9 lg:flex">
+          <nav className="hidden items-center gap-8 lg:flex">
             {nav.map((item) => (
-              <button
+              <Link
                 key={item.label}
+                to="/collections/$handle"
+                params={{ handle: item.handle }}
                 onMouseEnter={() => setOpen(item.label)}
                 onFocus={() => setOpen(item.label)}
                 className={`link-line eyebrow py-2 transition-colors ${
@@ -216,43 +327,47 @@ export function Header({ onCartOpen, cartCount }: { onCartOpen: () => void; cart
                 }`}
               >
                 {item.label}
-              </button>
+              </Link>
             ))}
           </nav>
 
-          <a
-            href="#top"
+          <Link
+            to="/"
             className="justify-self-center font-display text-2xl tracking-[0.34em] lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:text-[1.75rem]"
           >
             MEHR
-          </a>
+          </Link>
 
           <div className="flex items-center justify-end gap-4 lg:gap-5">
             <button
               onClick={() => setSearch(true)}
-              className="hidden items-center gap-3 border border-border/80 bg-background/50 px-4 py-2 text-[0.68rem] tracking-[0.1em] text-muted-foreground transition-colors hover:border-foreground hover:text-foreground md:flex"
+              className={`hidden items-center gap-3 border px-4 py-2 text-[0.68rem] tracking-[0.1em] transition-colors md:flex ${
+                light
+                  ? "border-background/35 text-background/80 hover:border-background"
+                  : "border-border/80 bg-background/50 text-muted-foreground hover:border-foreground hover:text-foreground"
+              }`}
             >
               <Search className="h-3.5 w-3.5" strokeWidth={1.5} />
               Search
-              <kbd className="border border-border px-1.5 py-0.5 text-[0.55rem] tracking-normal">⌘K</kbd>
+              <kbd className="border border-current/30 px-1.5 py-0.5 text-[0.55rem] tracking-normal opacity-70">⌘K</kbd>
             </button>
             <button aria-label="Search" onClick={() => setSearch(true)} className="md:hidden">
               <Search className="h-5 w-5" strokeWidth={1.4} />
             </button>
-            <button aria-label="Account" className="hidden sm:block transition-colors hover:text-gold">
+            <Link to="/track" aria-label="Track order" className="hidden transition-colors hover:text-gold sm:block">
               <User className="h-5 w-5" strokeWidth={1.4} />
-            </button>
-            <button aria-label="Cart" onClick={onCartOpen} className="relative transition-colors hover:text-gold">
+            </Link>
+            <button aria-label="Cart" onClick={() => setCartOpen(true)} className="relative transition-colors hover:text-gold">
               <ShoppingBag className="h-5 w-5" strokeWidth={1.4} />
-              <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center bg-gold text-[0.58rem] font-medium tabular-nums text-accent-foreground">
-                {cartCount}
+              <span className="num absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center bg-gold text-[0.58rem] font-medium text-accent-foreground">
+                {count}
               </span>
             </button>
           </div>
         </div>
 
         <div
-          className={`hidden overflow-hidden border-t bg-background/90 backdrop-blur-xl transition-[max-height,opacity] duration-500 ease-out lg:block ${
+          className={`hidden overflow-hidden border-t bg-background/95 text-foreground backdrop-blur-xl transition-[max-height,opacity] duration-500 ease-out lg:block ${
             active ? "max-h-[26rem] border-border opacity-100" : "max-h-0 border-transparent opacity-0"
           }`}
         >
@@ -262,17 +377,25 @@ export function Header({ onCartOpen, cartCount }: { onCartOpen: () => void; cart
                 <p className="eyebrow text-muted-foreground">{col.title}</p>
                 <ul className="mt-5 space-y-2.5">
                   {col.items.map((sub) => (
-                    <li key={sub}>
-                      <a href="#grid" className="link-line font-display text-xl transition-colors hover:text-gold">
-                        {sub}
-                      </a>
+                    <li key={sub.label}>
+                      <Link
+                        to="/collections/$handle"
+                        params={{ handle: sub.handle }}
+                        className="link-line font-display text-xl transition-colors hover:text-gold"
+                      >
+                        {sub.label}
+                      </Link>
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
             {active && (
-              <a href="#grid" className="group relative overflow-hidden bg-sand">
+              <Link
+                to="/collections/$handle"
+                params={{ handle: active.feature.handle }}
+                className="group relative overflow-hidden bg-sand"
+              >
                 <img
                   src={active.feature.src}
                   alt={active.feature.title}
@@ -284,43 +407,52 @@ export function Header({ onCartOpen, cartCount }: { onCartOpen: () => void; cart
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6">
                   <div>
-                    <p className="text-[0.6rem] tracking-[0.2em] uppercase text-background/70">
-                      {active.feature.eyebrow}
-                    </p>
+                    <p className="text-[0.6rem] tracking-[0.2em] uppercase text-background/70">{active.feature.eyebrow}</p>
                     <p className="mt-1.5 font-display text-2xl text-background">{active.feature.title}</p>
                   </div>
-                  <ArrowRight className="h-5 w-5 text-background transition-transform duration-400 group-hover:translate-x-1" strokeWidth={1.3} />
+                  <ArrowRight className="h-5 w-5 text-background transition-transform duration-300 group-hover:translate-x-1" strokeWidth={1.3} />
                 </div>
-              </a>
+              </Link>
             )}
           </div>
         </div>
       </div>
 
       {mobile && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-background lg:hidden">
+        <div className="fixed inset-0 z-[80] overflow-y-auto bg-background text-foreground lg:hidden">
           <div className="flex items-center justify-between border-b border-border px-5 py-4">
             <span className="font-display text-xl tracking-[0.3em]">MEHR</span>
             <button aria-label="Close menu" onClick={() => setMobile(false)}>
               <X className="h-5 w-5" strokeWidth={1.4} />
             </button>
           </div>
-          <nav className="px-5 py-6">
-            {nav.map((item) => (
-              <div key={item.label} className="border-b border-border py-5">
-                <p className="font-display text-3xl">{item.label}</p>
-                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-                  {item.columns.flatMap((c) => c.items).map((sub) => (
-                    <a key={sub} href="#grid" onClick={() => setMobile(false)} className="text-sm text-muted-foreground">
-                      {sub}
-                    </a>
-                  ))}
-                </div>
-              </div>
+          <nav className="px-5 py-4">
+            {collections.map((c) => (
+              <Link
+                key={c.handle}
+                to="/collections/$handle"
+                params={{ handle: c.handle }}
+                className="flex items-baseline justify-between border-b border-border py-5"
+              >
+                <span className="font-display text-3xl">{c.title}</span>
+                <ArrowRight className="h-4 w-4 text-muted-foreground" strokeWidth={1.3} />
+              </Link>
             ))}
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              {[
+                { to: "/track", label: "Track Order" },
+                { to: "/faq", label: "Help & FAQ" },
+                { to: "/about", label: "Our Atelier" },
+                { to: "/contact", label: "Contact" },
+              ].map((l) => (
+                <Link key={l.to} to={l.to} className="border border-border px-4 py-3 text-[0.65rem] tracking-[0.16em] uppercase">
+                  {l.label}
+                </Link>
+              ))}
+            </div>
             <a
               href="https://wa.me/920000000000"
-              className="mt-8 flex items-center justify-center gap-2.5 bg-whatsapp py-4 text-[0.65rem] tracking-[0.2em] uppercase text-background"
+              className="mt-6 mb-10 flex items-center justify-center gap-2.5 bg-whatsapp py-4 text-[0.65rem] tracking-[0.2em] uppercase text-background"
             >
               <WhatsAppGlyph className="h-4 w-4" /> Chat to Order
             </a>
