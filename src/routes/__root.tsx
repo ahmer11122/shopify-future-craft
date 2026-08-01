@@ -11,6 +11,11 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { CartProvider } from "@/components/store/cart";
+import { Header } from "@/components/store/Header";
+import { Footer } from "@/components/store/Footer";
+import { CartDrawer } from "@/components/store/CartDrawer";
+import { FloatingWhatsApp } from "@/components/store/Floating";
 
 function NotFoundComponent() {
   return (
