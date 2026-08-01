@@ -1,119 +1,103 @@
-import hero from "@/assets/hero.jpg";
-import look1 from "@/assets/look1.jpg";
-import look2 from "@/assets/look2.jpg";
-import look3 from "@/assets/look3.jpg";
-import look4 from "@/assets/look4.jpg";
-import editorial from "@/assets/editorial.jpg";
-import p1a from "@/assets/p1a.jpg";
-import p2a from "@/assets/p2a.jpg";
-import p3a from "@/assets/p3a.jpg";
-
-const colA = [look1, p2a, look3, editorial];
-const colB = [look2, p1a, look4, p3a];
-
-function DriftColumn({
-  images,
-  reverse,
-  className = "",
-}: {
-  images: string[];
-  reverse?: boolean;
-  className?: string;
-}) {
-  return (
-    <div className={`drift-mask h-full overflow-hidden ${className}`}>
-      <div className={`flex flex-col gap-4 ${reverse ? "drift-down" : "drift-up"}`}>
-        {[0, 1].map((pass) =>
-          images.map((src, i) => (
-            <div key={`${pass}-${i}`} className="aspect-[3/4] w-full shrink-0 overflow-hidden bg-sand">
-              <img
-                src={src}
-                alt=""
-                aria-hidden="true"
-                width={600}
-                height={800}
-                loading={pass === 0 && i === 0 ? "eager" : "lazy"}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          )),
-        )}
-      </div>
-    </div>
-  );
-}
+import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { heroSlides } from "./data";
 
 export function Hero() {
+  const [i, setI] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setI((v) => (v + 1) % heroSlides.length), 5200);
+    return () => clearInterval(t);
+  }, []);
+
+  const slide = heroSlides[i];
+
   return (
-    <section id="top" className="relative overflow-hidden bg-background pt-[104px]">
-      <div className="mx-auto grid max-w-[1400px] items-center gap-12 px-5 pb-20 pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-10 lg:pb-28 lg:pt-20">
-        <div className="max-w-xl">
-          <p className="eyebrow reveal text-muted-foreground">Spring / Summer 2026</p>
-          <div className="rule-gold reveal my-6" style={{ animationDelay: "80ms" }} />
-          <h1
-            className="reveal type-display"
-            style={{ animationDelay: "140ms" }}
-          >
-            The Quiet
+    <section id="top" className="relative h-[92svh] min-h-[560px] w-full overflow-hidden bg-foreground">
+      {heroSlides.map((s, idx) => (
+        <div
+          key={s.src}
+          className={`absolute inset-0 transition-opacity duration-[1400ms] ease-out ${
+            idx === i ? "opacity-100" : "opacity-0"
+          }`}
+          aria-hidden={idx !== i}
+        >
+          <img
+            src={s.src}
+            alt={idx === i ? s.caption : ""}
+            width={1600}
+            height={2000}
+            loading={idx === 0 ? "eager" : "lazy"}
+            className={`h-full w-full object-cover object-[58%_center] ${idx === i ? "kenburns" : ""}`}
+          />
+        </div>
+      ))}
+
+      <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/40 to-foreground/10" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-foreground/70 to-transparent" />
+
+      <div className="relative mx-auto flex h-full max-w-[1400px] flex-col justify-end px-5 pb-16 pt-32 text-background lg:px-10 lg:pb-24">
+        <div key={i} className="max-w-2xl">
+          <p className="eyebrow reveal text-background/70">{slide.eyebrow}</p>
+          <div className="rule-gold reveal my-6" style={{ animationDelay: "70ms" }} />
+          <h1 className="reveal type-display" style={{ animationDelay: "130ms" }}>
+            {slide.title}
             <br />
-            <em className="italic text-gold">Luxury</em> Edit
+            <em className="italic text-gold">{slide.accent}</em>
+            {slide.tail ? ` ${slide.tail}` : ""}
           </h1>
           <p
-            className="reveal mt-8 max-w-md text-[0.95rem] leading-[1.75] text-muted-foreground"
-            style={{ animationDelay: "220ms" }}
+            className="reveal mt-7 max-w-md text-[0.95rem] leading-[1.75] text-background/75"
+            style={{ animationDelay: "210ms" }}
           >
-            Hand-finished lawn, chiffon and embroidered three-piece suits.
-            Measured in inches, photographed in daylight, delivered across
-            Pakistan with cash on delivery.
+            {slide.caption}
           </p>
-          <div className="reveal mt-10 flex flex-wrap items-center gap-5" style={{ animationDelay: "300ms" }}>
-            <a href="#grid" className="btn-primary">
-              Shop the Edit
-            </a>
-            <a href="#lookbook" className="link-line text-[0.7rem] tracking-[0.2em] uppercase">
-              View the Lookbook
-            </a>
+          <div className="reveal mt-10 flex flex-wrap items-center gap-6" style={{ animationDelay: "280ms" }}>
+            <Link to="/collections/$handle" params={{ handle: "new-arrivals" }} className="btn-primary btn-on-dark">
+              Shop New Arrivals
+            </Link>
+            <Link to="/collections" className="link-line text-[0.7rem] tracking-[0.2em] uppercase">
+              View All Collections
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-14 flex items-end justify-between gap-8 border-t border-background/20 pt-6">
+          <div className="flex items-center gap-5">
+            <span className="num text-[0.7rem] tracking-[0.2em] text-background/60">
+              {String(i + 1).padStart(2, "0")}
+              <span className="mx-2 text-background/30">/</span>
+              {String(heroSlides.length).padStart(2, "0")}
+            </span>
+            <div className="flex gap-2">
+              {heroSlides.map((s, idx) => (
+                <button
+                  key={s.src}
+                  aria-label={`Go to slide ${idx + 1}`}
+                  onClick={() => setI(idx)}
+                  className={`h-px w-10 transition-all duration-500 ${
+                    idx === i ? "bg-gold" : "bg-background/35 hover:bg-background/70"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
 
-          <dl
-            className="reveal mt-14 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-8"
-            style={{ animationDelay: "380ms" }}
-          >
+          <dl className="hidden gap-12 sm:flex">
             {[
-              ["24 hrs", "Dispatch, Lahore"],
-              ["4.8 / 5", "2,140 reviews"],
-              ["COD", "Nationwide"],
-            ].map(([k, v]) => (
+              ["24", "hrs", "Dispatch"],
+              ["4.8", "/5", "2,140 reviews"],
+              ["COD", "", "Nationwide"],
+            ].map(([k, s, v]) => (
               <div key={v}>
-                <dt className="font-display text-2xl">{k}</dt>
-                <dd className="mt-1.5 text-[0.68rem] leading-snug tracking-[0.06em] uppercase text-muted-foreground">
-                  {v}
-                </dd>
+                <dt className="num font-display text-2xl text-background">
+                  {k}
+                  <span className="text-base text-background/50">{s}</span>
+                </dt>
+                <dd className="mt-1 text-[0.62rem] tracking-[0.16em] uppercase text-background/55">{v}</dd>
               </div>
             ))}
           </dl>
-        </div>
-
-        <div className="relative">
-          <div className="hidden h-[38rem] grid-cols-2 gap-4 lg:grid xl:h-[42rem]">
-            <DriftColumn images={colA} />
-            <DriftColumn images={colB} reverse className="mt-12" />
-          </div>
-
-          <div className="relative aspect-[4/5] overflow-hidden bg-sand lg:hidden">
-            <img
-              src={hero}
-              alt="Model wearing an ivory embroidered lawn suit in a marble courtyard"
-              width={800}
-              height={1000}
-              className="h-full w-full object-cover object-[64%_center]"
-            />
-          </div>
-
-          <div className="pointer-events-none absolute -bottom-6 left-0 hidden bg-background px-6 py-5 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.45)] lg:block">
-            <p className="eyebrow text-muted-foreground">Now Shipping</p>
-            <p className="mt-1.5 font-display text-xl">Lawn Edit — 48 pieces</p>
-          </div>
         </div>
       </div>
     </section>
