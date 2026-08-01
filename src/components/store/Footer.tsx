@@ -1,9 +1,35 @@
+import { Link } from "@tanstack/react-router";
 import { WhatsAppGlyph } from "./Header";
 
-const columns = [
-  { title: "Shop", links: ["New Arrivals", "Bestsellers", "Lawn", "Formal", "Sale"] },
-  { title: "Help", links: ["Size Guide", "Shipping & COD", "Exchange Policy", "Track Order"] },
-  { title: "Brand", links: ["Our Atelier", "Stores in Lahore", "Careers"] },
+const columns: { title: string; links: { label: string; to: string; params?: Record<string, string> }[] }[] = [
+  {
+    title: "Shop",
+    links: [
+      { label: "New Arrivals", to: "/collections/$handle", params: { handle: "new-arrivals" } },
+      { label: "Unstitched", to: "/collections/$handle", params: { handle: "unstitched" } },
+      { label: "Stitched", to: "/collections/$handle", params: { handle: "stitched" } },
+      { label: "Formals", to: "/collections/$handle", params: { handle: "formal" } },
+      { label: "Sale", to: "/collections/$handle", params: { handle: "sale" } },
+    ],
+  },
+  {
+    title: "Help",
+    links: [
+      { label: "Size Guide", to: "/faq" },
+      { label: "Shipping & COD", to: "/faq" },
+      { label: "Exchange Policy", to: "/faq" },
+      { label: "Track Order", to: "/track" },
+      { label: "Contact", to: "/contact" },
+    ],
+  },
+  {
+    title: "Brand",
+    links: [
+      { label: "Our Atelier", to: "/about" },
+      { label: "All Collections", to: "/collections" },
+      { label: "Checkout", to: "/checkout" },
+    ],
+  },
 ];
 
 export function Footer() {
@@ -14,15 +40,14 @@ export function Footer() {
           <div>
             <p className="font-display text-3xl tracking-[0.3em]">MEHR</p>
             <p className="mt-6 max-w-xs text-[0.82rem] leading-relaxed text-background/60">
-              Pakistani womenswear, made in Lahore. Cash on delivery nationwide,
-              dispatch within 24 hours.
+              Pakistani womenswear, made in Lahore. Cash on delivery nationwide, dispatch within 24 hours.
             </p>
             <a
               href="https://wa.me/920000000000"
-              className="mt-7 inline-flex items-center gap-2.5 border border-background/25 px-4 py-2.5 text-[0.65rem] tracking-[0.18em] uppercase transition-colors hover:border-gold hover:text-gold"
+              className="num mt-7 inline-flex items-center gap-2.5 border border-background/25 px-4 py-2.5 text-[0.68rem] tracking-[0.18em] uppercase transition-colors hover:border-gold hover:text-gold"
             >
               <WhatsAppGlyph className="h-3.5 w-3.5" />
-              +92 000 0000000
+              +92 300 0000000
             </a>
           </div>
           {columns.map((c) => (
@@ -30,10 +55,14 @@ export function Footer() {
               <p className="eyebrow text-background/50">{c.title}</p>
               <ul className="mt-5 space-y-3">
                 {c.links.map((l) => (
-                  <li key={l}>
-                    <a href="#grid" className="text-[0.85rem] text-background/80 transition-colors hover:text-gold">
-                      {l}
-                    </a>
+                  <li key={l.label}>
+                    <Link
+                      to={l.to}
+                      params={l.params as never}
+                      className="text-[0.85rem] text-background/80 transition-colors hover:text-gold"
+                    >
+                      {l.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -46,7 +75,10 @@ export function Footer() {
           </p>
           <div className="flex flex-wrap gap-2.5">
             {["Cash on Delivery", "Easypaisa", "JazzCash", "Visa", "Mastercard"].map((p) => (
-              <span key={p} className="border border-background/20 px-3 py-1.5 text-[0.6rem] tracking-[0.14em] uppercase text-background/70">
+              <span
+                key={p}
+                className="border border-background/20 px-3 py-1.5 text-[0.6rem] tracking-[0.14em] uppercase text-background/70"
+              >
                 {p}
               </span>
             ))}
