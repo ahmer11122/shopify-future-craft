@@ -17,11 +17,17 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
   const [liked, setLiked] = useState(false);
   const [size, setSize] = useState<string | null>(null);
   const { add } = useCart();
+  const out = product.soldOutSizes ?? [];
 
   return (
-    <article data-reveal style={{ transitionDelay: `${(index % 4) * 70}ms` }} className="reveal-up group">
-      <div className="relative aspect-[4/5.5] overflow-hidden bg-sand">
-        <Link to="/products/$productId" params={{ productId: product.id }} className="absolute inset-0">
+    <article data-reveal style={{ transitionDelay: `${(index % 4) * 70}ms` }} className="reveal-up group min-w-0">
+      <div className="relative aspect-[4/5.2] overflow-hidden bg-sand">
+        <Link
+          to="/products/$productId"
+          params={{ productId: product.id }}
+          aria-label={product.name}
+          className="absolute inset-0"
+        >
           <img
             src={product.front}
             alt={`${product.name} — ${product.fabric}`}
@@ -39,10 +45,12 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             loading="lazy"
             className="absolute inset-0 h-full w-full scale-[1.04] object-cover opacity-0 transition-all duration-[900ms] ease-out group-hover:scale-100 group-hover:opacity-100"
           />
+          <span className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-transparent transition-all duration-500 group-hover:ring-foreground/12" />
         </Link>
 
+        {/* Tag sits low-left so it never crosses the model's face */}
         {product.tag && (
-          <span className="pointer-events-none absolute left-4 top-4 bg-background/85 px-3 py-1.5 text-[0.58rem] tracking-[0.18em] uppercase backdrop-blur-sm">
+          <span className="tag-chip pointer-events-none absolute bottom-3 left-3 transition-all duration-300 group-hover:-translate-y-1 group-hover:opacity-0">
             {product.tag}
           </span>
         )}
@@ -50,39 +58,46 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
         <button
           onClick={() => setLiked((v) => !v)}
           aria-label={liked ? "Remove from wishlist" : "Save to wishlist"}
-          className="absolute right-3 top-3 grid h-9 w-9 place-items-center bg-background/80 backdrop-blur-sm transition-all duration-300 hover:bg-background sm:opacity-0 sm:group-hover:opacity-100"
+          className="absolute right-2.5 top-2.5 grid h-8 w-8 place-items-center bg-background/85 backdrop-blur-sm transition-all duration-300 hover:bg-background sm:h-9 sm:w-9 sm:opacity-0 sm:group-hover:opacity-100"
         >
-          <Heart className={`h-4 w-4 transition-colors ${liked ? "fill-gold text-gold" : ""}`} strokeWidth={1.4} />
+          <Heart className={`h-3.5 w-3.5 transition-colors ${liked ? "fill-gold text-gold" : ""}`} strokeWidth={1.4} />
         </button>
 
-        <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100 focus-within:translate-y-0 focus-within:opacity-100">
-          <div className="mb-2 hidden justify-center gap-1.5 sm:flex">
-            {product.sizes.map((s) => (
-              <button
-                key={s}
-                onClick={() => setSize(s)}
-                className={`h-8 w-8 border text-[0.6rem] tracking-[0.08em] backdrop-blur-sm transition-colors ${
-                  size === s
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-transparent bg-background/85 hover:border-foreground"
-                }`}
-              >
-                {s}
-              </button>
-            ))}
+        <div className="absolute inset-x-2.5 bottom-2.5 hidden translate-y-2 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100 focus-within:translate-y-0 focus-within:opacity-100 sm:block">
+          <div className="mb-2 flex justify-center gap-1.5">
+            {product.sizes.map((s) => {
+              const soldOut = out.includes(s);
+              return (
+                <button
+                  key={s}
+                  disabled={soldOut}
+                  onClick={() => setSize(s)}
+                  aria-label={soldOut ? `${s} — unavailable` : `Select size ${s}`}
+                  className={`h-8 w-8 border text-[0.6rem] tracking-[0.08em] backdrop-blur-sm transition-colors ${
+                    soldOut
+                      ? "swatch-out border-border bg-background/70 text-muted-foreground"
+                      : size === s
+                        ? "border-foreground bg-foreground text-background"
+                        : "border-transparent bg-background/90 hover:border-foreground"
+                  }`}
+                >
+                  {s}
+                </button>
+              );
+            })}
           </div>
           <button
-            onClick={() => add(product.id, size ?? product.sizes[0])}
-            className="w-full bg-foreground py-3.5 text-[0.62rem] tracking-[0.22em] uppercase text-background transition-colors duration-300 hover:bg-gold hover:text-accent-foreground"
+            onClick={() => add(product.id, size ?? product.sizes.find((s) => !out.includes(s)) ?? product.sizes[0])}
+            className="btn-primary w-full px-3 py-3.5 text-[0.6rem] tracking-[0.22em]"
           >
             {size ? `Add ${size} to Bag` : "Quick Add"}
           </button>
         </div>
       </div>
 
-      <div className="pt-5">
+      <div className="pt-4 sm:pt-5">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="font-display text-xl leading-tight">
+          <h3 className="min-w-0 font-display text-lg leading-tight sm:text-xl">
             <Link to="/products/$productId" params={{ productId: product.id }} className="link-line">
               {product.name}
             </Link>
@@ -91,16 +106,16 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             {product.colors.map((c) => (
               <span
                 key={c.name}
-                title={c.name}
-                className="h-2.5 w-2.5 rounded-full ring-1 ring-border"
+                title={c.soldOut ? `${c.name} — sold out` : c.name}
+                className={`h-2.5 w-2.5 rounded-full ring-1 ring-border ${c.soldOut ? "swatch-out" : ""}`}
                 style={{ backgroundColor: c.hex }}
               />
             ))}
           </div>
         </div>
-        <p className="mt-1.5 text-[0.72rem] tracking-[0.04em] text-muted-foreground">{product.fabric}</p>
-        <div className="mt-3 flex items-baseline gap-3">
-          <span className="num text-[0.95rem]">{formatPKR(product.price)}</span>
+        <p className="mt-1.5 truncate text-[0.7rem] tracking-[0.04em] text-muted-foreground">{product.fabric}</p>
+        <div className="mt-2.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="num text-[0.9rem]">{formatPKR(product.price)}</span>
           {product.compareAt && (
             <>
               <span className="num text-xs text-muted-foreground line-through">{formatPKR(product.compareAt)}</span>
@@ -110,7 +125,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             </>
           )}
         </div>
-        <div className="mt-2.5 flex items-center gap-2">
+        <div className="mt-2 flex items-center gap-2">
           <Stars rating={product.rating} />
           <span className="num text-[0.68rem] text-muted-foreground">({product.reviews})</span>
         </div>
