@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Heart, Ruler, ShieldCheck, X } from "lucide-react";
+import { Heart, Ruler, ShieldCheck, X, ShoppingCart } from "lucide-react";
 import { formatPKR, products, sizeChart } from "./data";
 import { WhatsAppGlyph } from "./Header";
+import { Button } from "../ui/button";
 
 const sizes = ["XS", "S", "M", "L", "XL"];
 
@@ -82,12 +83,13 @@ export function ProductDetail({ onAdd }: { onAdd: () => void }) {
           </div>
 
           <div className="mt-9 flex gap-3">
-            <button
+            <Button
               onClick={onAdd}
-              className="flex-1 bg-foreground py-4 text-[0.7rem] tracking-[0.2em] uppercase text-background transition-colors hover:bg-gold hover:text-accent-foreground"
+              className="flex-1 bg-foreground py-6 rounded-none text-[0.7rem] tracking-[0.2em] uppercase text-background gap-2"
             >
+              <ShoppingCart className="h-4 w-4" />
               Add to Cart
-            </button>
+            </Button>
             <button aria-label="Save" className="border border-border px-5 transition-colors hover:border-foreground">
               <Heart className="h-4 w-4" strokeWidth={1.4} />
             </button>

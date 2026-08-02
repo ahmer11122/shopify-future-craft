@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Heart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import { formatPKR, type Product } from "./data";
 import { useCart } from "./cart";
+import { Button } from "../ui/button";
 
 export function Stars({ rating, className = "" }: { rating: number; className?: string }) {
   return (
@@ -86,12 +87,13 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
               );
             })}
           </div>
-          <button
+          <Button
             onClick={() => add(product.id, size ?? product.sizes.find((s) => !out.includes(s)) ?? product.sizes[0])}
-            className="btn-primary w-full px-3 py-3.5 text-[0.6rem] tracking-[0.22em]"
+            className="w-full px-3 py-5 rounded-none text-[0.6rem] tracking-[0.22em] text-background gap-2"
           >
-            {size ? `Add ${size} to Bag` : "Quick Add"}
-          </button>
+            <ShoppingCart className="h-4 w-4" />
+            Add to Cart
+          </Button>
         </div>
       </div>
 
