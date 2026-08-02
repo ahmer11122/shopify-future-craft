@@ -5,10 +5,13 @@ import { collections, productsIn } from "./data";
 const spans = [
   "lg:col-span-3 lg:row-span-2",
   "lg:col-span-3",
+  "lg:col-span-3",
   "lg:col-span-2",
-  "lg:col-span-1",
+  "lg:col-span-2",
+  "lg:col-span-2",
   "lg:col-span-3",
   "lg:col-span-3",
+  "lg:col-span-6 lg:min-h-[18rem]",
 ];
 
 export function CategoryTiles() {
