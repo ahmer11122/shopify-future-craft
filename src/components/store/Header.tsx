@@ -272,6 +272,9 @@ export function Header() {
         e.preventDefault();
         setSearch(true);
       }
+      if (e.key === "Escape") {
+        setOpen(null);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -305,7 +308,7 @@ export function Header() {
         className={`border-b transition-all duration-500 ${
           light
             ? "border-transparent bg-transparent text-background"
-            : "border-border/70 bg-background/70 text-foreground shadow-[0_1px_30px_-18px_rgba(0,0,0,0.5)] backdrop-blur-xl backdrop-saturate-150"
+            : "border-border/70 bg-background/95 text-foreground shadow-[0_1px_30px_-18px_rgba(0,0,0,0.5)] backdrop-blur-xl backdrop-saturate-150"
         }`}
         onMouseLeave={() => setOpen(null)}
       >
@@ -322,8 +325,9 @@ export function Header() {
                 params={{ handle: item.handle }}
                 onMouseEnter={() => setOpen(item.label)}
                 onFocus={() => setOpen(item.label)}
-                className={`link-line eyebrow py-2 transition-colors ${
-                  open === item.label ? "text-gold is-on" : "hover:text-gold"
+                aria-expanded={open === item.label}
+                className={`link-line eyebrow py-2 transition-opacity ${
+                  open === item.label ? "is-on" : "hover:opacity-60"
                 }`}
               >
                 {item.label}
@@ -356,10 +360,10 @@ export function Header() {
             <button aria-label="Search" onClick={() => setSearch(true)} className="md:hidden">
               <Search className="h-5 w-5" weight="light" />
             </button>
-            <Link to="/track" aria-label="Track order" className="hidden transition-colors hover:text-gold sm:block">
+            <Link to="/track" aria-label="Track order" className="hidden transition-opacity hover:opacity-60 sm:block">
               <User className="h-5 w-5" weight="light" />
             </Link>
-            <button aria-label="Cart" onClick={() => setCartOpen(true)} className="relative transition-colors hover:text-gold">
+            <button aria-label="Cart" onClick={() => setCartOpen(true)} className="relative transition-opacity hover:opacity-60">
               <ShoppingBag className="h-5 w-5" weight="light" />
               {count > 0 && (
                 <span className="num absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center bg-gold text-[0.65rem] font-medium text-accent-foreground">
@@ -386,7 +390,7 @@ export function Header() {
                       <Link
                         to="/collections/$handle"
                         params={{ handle: sub.handle }}
-                        className="link-line font-display text-xl transition-colors hover:text-gold"
+                        className="link-line font-display text-xl transition-opacity hover:opacity-60"
                       >
                         {sub.label}
                       </Link>
