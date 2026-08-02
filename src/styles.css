@@ -95,6 +95,7 @@
   --whatsapp: oklch(0.68 0.17 145);
   --font-display: "Playfair Display", Georgia, serif;
   --font-body: "Inter", system-ui, sans-serif;
+  --font-num: "Outfit", system-ui, sans-serif;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -458,7 +459,7 @@
    --------------------------------------------------------------- */
 
 @utility num {
-  font-family: var(--font-display);
+  font-family: var(--font-num);
   font-variant-numeric: tabular-nums lining-nums;
   font-feature-settings: "tnum" 1, "lnum" 1, "ss01" 1;
   letter-spacing: 0.01em;
