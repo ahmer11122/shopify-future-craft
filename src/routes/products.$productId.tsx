@@ -11,7 +11,9 @@ import {
   ShieldCheck,
   Truck,
   X,
+  ShoppingCart,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { formatPKR, getProduct, products, sizeChart } from "@/components/store/data";
 import { useCart } from "@/components/store/cart";
 import { WhatsAppGlyph } from "@/components/store/Header";
@@ -308,15 +310,14 @@ function ProductPage() {
                 <Plus className="h-3.5 w-3.5" strokeWidth={1.5} />
               </button>
             </div>
-            <button
+            <Button
               disabled={sizeUnavailable}
               onClick={() => add(product.id, size, qty)}
-              className="btn-primary h-14 min-w-0 flex-1 basis-40 px-5 py-0 text-[0.66rem]"
+              className="h-14 min-w-0 flex-1 basis-40 px-5 py-0 text-[0.66rem] uppercase tracking-[0.2em] rounded-none gap-2"
             >
-              <span className="truncate">
-                {sizeUnavailable ? "Sold out" : `Add to Bag — ${formatPKR(product.price * qty)}`}
-              </span>
-            </button>
+              <ShoppingCart className="h-4 w-4" />
+              {sizeUnavailable ? "Sold out" : "Add to Cart"}
+            </Button>
             <button
               aria-label="Save to wishlist"
               className="hover-ring grid h-14 w-14 shrink-0 place-items-center border border-border"
@@ -416,13 +417,14 @@ function ProductPage() {
             {product.name} · {size}
           </p>
         </div>
-        <button
+        <Button
           disabled={sizeUnavailable}
           onClick={() => add(product.id, size, qty)}
-          className="btn-primary ml-auto h-12 flex-1 px-4 py-0 text-[0.62rem]"
+          className="ml-auto h-12 flex-1 px-4 py-0 text-[0.62rem] uppercase tracking-[0.2em] rounded-none gap-2"
         >
-          {sizeUnavailable ? "Sold out" : "Add to Bag"}
-        </button>
+          <ShoppingCart className="h-4 w-4" />
+          {sizeUnavailable ? "Sold out" : "Add to Cart"}
+        </Button>
       </div>
 
       {chart && (

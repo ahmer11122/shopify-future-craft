@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
-import { Check, Heart, SlidersHorizontal, X } from "lucide-react";
+import { Check, Heart, SlidersHorizontal, X, ShoppingCart } from "lucide-react";
 import { allColors, allSizes, categories, formatPKR, products, type Product } from "./data";
+import { Button } from "../ui/button";
 
 type Sort = "Featured" | "Price: Low" | "Price: High" | "Top Rated";
 const sorts: Sort[] = ["Featured", "Price: Low", "Price: High", "Top Rated"];
@@ -75,12 +76,13 @@ function Card({ product, index, onAdd }: { product: Product; index: number; onAd
               </button>
             ))}
           </div>
-          <button
+          <Button
             onClick={onAdd}
-            className="w-full bg-foreground py-3.5 text-[0.62rem] tracking-[0.22em] uppercase text-background transition-colors duration-300 hover:bg-gold hover:text-accent-foreground"
+            className="w-full bg-foreground py-5 text-[0.62rem] tracking-[0.22em] uppercase text-background rounded-none gap-2"
           >
-            {size ? `Add ${size} to Bag` : "Quick Add"}
-          </button>
+            <ShoppingCart className="h-4 w-4" />
+            Add to Cart
+          </Button>
         </div>
       </div>
 
