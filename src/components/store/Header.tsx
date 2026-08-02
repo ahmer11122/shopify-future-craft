@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ArrowRight, Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { ArrowRight, List as Menu, MagnifyingGlass as Search, Tote as ShoppingBag, User, X } from "@phosphor-icons/react";
 import { collections, formatPKR, products } from "./data";
 import { useCart } from "./cart";
 import cat1 from "@/assets/cat1.jpg";
@@ -179,7 +179,7 @@ function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }
       >
         <div className="mx-auto max-w-[1100px] px-5 py-10 lg:px-10 lg:py-14">
           <div className="flex items-center gap-4 border-b border-border pb-4 focus-within:border-gold">
-            <Search className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.3} />
+            <Search className="h-5 w-5 shrink-0 text-muted-foreground" weight="light" />
             <input
               ref={inputRef}
               value={q}
@@ -188,7 +188,7 @@ function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }
               className="w-full bg-transparent font-display text-2xl outline-none placeholder:text-muted-foreground lg:text-3xl"
             />
             <button aria-label="Close search" onClick={onClose} className="shrink-0 text-muted-foreground hover:text-foreground">
-              <X className="h-5 w-5" strokeWidth={1.4} />
+              <X className="h-5 w-5" weight="light" />
             </button>
           </div>
 
@@ -311,7 +311,7 @@ export function Header() {
       >
         <div className="mx-auto grid max-w-[1400px] grid-cols-[auto_1fr_auto] items-center gap-6 px-5 py-4 lg:px-10">
           <button className="lg:hidden" aria-label="Open menu" onClick={() => setMobile(true)}>
-            <Menu className="h-5 w-5" strokeWidth={1.4} />
+            <Menu className="h-5 w-5" weight="light" />
           </button>
 
           <nav className="hidden items-center gap-8 lg:flex">
@@ -347,22 +347,22 @@ export function Header() {
                   : "border-border/80 bg-sand/40 text-muted-foreground hover:border-foreground hover:bg-background hover:text-foreground"
               }`}
             >
-              <Search className="h-3.5 w-3.5 shrink-0 transition-transform duration-500 group-hover:scale-110" strokeWidth={1.5} />
+              <Search className="h-3.5 w-3.5 shrink-0 transition-transform duration-500 group-hover:scale-110" weight="light" />
               <span className="truncate">Search the store</span>
               <kbd className="num ml-auto shrink-0 border border-current/25 px-1.5 py-0.5 text-[0.55rem] tracking-normal opacity-60">
                 ⌘K
               </kbd>
             </button>
             <button aria-label="Search" onClick={() => setSearch(true)} className="md:hidden">
-              <Search className="h-5 w-5" strokeWidth={1.4} />
+              <Search className="h-5 w-5" weight="light" />
             </button>
             <Link to="/track" aria-label="Track order" className="hidden transition-colors hover:text-gold sm:block">
-              <User className="h-5 w-5" strokeWidth={1.4} />
+              <User className="h-5 w-5" weight="light" />
             </Link>
             <button aria-label="Cart" onClick={() => setCartOpen(true)} className="relative transition-colors hover:text-gold">
-              <ShoppingBag className="h-5 w-5" strokeWidth={1.4} />
+              <ShoppingBag className="h-5 w-5" weight="light" />
               {count > 0 && (
-                <span className="num absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center bg-gold text-[0.58rem] font-medium text-accent-foreground">
+                <span className="num absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center bg-gold text-[0.65rem] font-medium text-accent-foreground">
                   {count}
                 </span>
               )}
@@ -415,7 +415,7 @@ export function Header() {
                     <p className="text-[0.6rem] tracking-[0.2em] uppercase text-background/70">{active.feature.eyebrow}</p>
                     <p className="mt-1.5 font-display text-2xl text-background">{active.feature.title}</p>
                   </div>
-                  <ArrowRight className="h-5 w-5 text-background transition-transform duration-300 group-hover:translate-x-1" strokeWidth={1.3} />
+                  <ArrowRight className="h-5 w-5 text-background transition-transform duration-300 group-hover:translate-x-1" weight="light" />
                 </div>
               </Link>
             )}
@@ -428,7 +428,7 @@ export function Header() {
           <div className="flex items-center justify-between border-b border-border px-5 py-4">
             <span className="font-display text-xl tracking-[0.3em]">MEHR</span>
             <button aria-label="Close menu" onClick={() => setMobile(false)}>
-              <X className="h-5 w-5" strokeWidth={1.4} />
+              <X className="h-5 w-5" weight="light" />
             </button>
           </div>
           <nav className="px-5 py-4">
@@ -440,7 +440,7 @@ export function Header() {
                 className="flex items-baseline justify-between border-b border-border py-5"
               >
                 <span className="font-display text-3xl">{c.title}</span>
-                <ArrowRight className="h-4 w-4 text-muted-foreground" strokeWidth={1.3} />
+                <ArrowRight className="h-4 w-4 text-muted-foreground" weight="light" />
               </Link>
             ))}
             <div className="mt-6 grid grid-cols-2 gap-3">

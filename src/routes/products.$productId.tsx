@@ -156,14 +156,14 @@ function ProductPage() {
               onClick={() => step(-1)}
               className="absolute left-2 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center bg-background/85 backdrop-blur-sm"
             >
-              <ChevronLeft className="h-4 w-4" strokeWidth={1.4} />
+              <ChevronLeft className="h-4 w-4" weight="light" />
             </button>
             <button
               aria-label="Next image"
               onClick={() => step(1)}
               className="absolute right-2 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center bg-background/85 backdrop-blur-sm"
             >
-              <ChevronRight className="h-4 w-4" strokeWidth={1.4} />
+              <ChevronRight className="h-4 w-4" weight="light" />
             </button>
             <div className="mt-4 flex items-center justify-center gap-2">
               {product.gallery.map((src, i) => (
@@ -279,7 +279,7 @@ function ProductPage() {
                   onClick={() => setChart(true)}
                   className="group flex items-center gap-2 text-[0.66rem] tracking-[0.15em] uppercase text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  <Ruler className="h-3.5 w-3.5 group-hover:text-gold transition-colors" strokeWidth={1.5} />
+                  <Ruler className="h-3.5 w-3.5 group-hover:text-gold transition-colors" weight="light" />
                   <span className="border-b border-border group-hover:border-gold transition-colors pb-0.5">Size Chart</span>
                 </button>
               </div>
@@ -334,7 +334,7 @@ function ProductPage() {
                     className="grid h-full w-14 place-items-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/30"
                     onClick={() => setQty((q) => Math.max(1, q - 1))}
                   >
-                    <Minus className="h-4 w-4" strokeWidth={1.5} />
+                    <Minus className="h-4 w-4" weight="light" />
                   </button>
                   <span className="num flex-1 text-center font-medium text-[1rem] sm:w-10">{qty}</span>
                   <button
@@ -342,7 +342,7 @@ function ProductPage() {
                     className="grid h-full w-14 place-items-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/30"
                     onClick={() => setQty((q) => Math.min(9, q + 1))}
                   >
-                    <Plus className="h-4 w-4" strokeWidth={1.5} />
+                    <Plus className="h-4 w-4" weight="light" />
                   </button>
                 </div>
                 
@@ -350,7 +350,7 @@ function ProductPage() {
                   aria-label="Save to wishlist"
                   className="grid h-14 w-14 shrink-0 place-items-center border border-border/80 bg-transparent text-muted-foreground hover:text-foreground hover:border-foreground/50 transition-colors"
                 >
-                  <Heart className="h-5 w-5" strokeWidth={1.5} />
+                  <Heart className="h-5 w-5" weight="light" />
                 </button>
               </div>
               
@@ -374,7 +374,7 @@ function ProductPage() {
             <details className="group bg-background" open>
               <summary className="flex cursor-pointer list-none items-center justify-between py-5 text-[0.75rem] font-medium tracking-[0.15em] uppercase transition-colors hover:text-gold">
                 Fabric & Care
-                <Plus className="h-4 w-4 transition-transform group-open:rotate-45" strokeWidth={1.5} />
+                <Plus className="h-4 w-4 transition-transform group-open:rotate-45" weight="light" />
               </summary>
               <div className="pb-6 text-[0.9rem] leading-relaxed text-muted-foreground">
                 <ul className="space-y-4">
@@ -390,7 +390,7 @@ function ProductPage() {
             <details className="group bg-background">
               <summary className="flex cursor-pointer list-none items-center justify-between py-5 text-[0.75rem] font-medium tracking-[0.15em] uppercase transition-colors hover:text-gold">
                 Shipping & Returns
-                <Plus className="h-4 w-4 transition-transform group-open:rotate-45" strokeWidth={1.5} />
+                <Plus className="h-4 w-4 transition-transform group-open:rotate-45" weight="light" />
               </summary>
               <div className="pb-6 space-y-5 text-[0.9rem] leading-relaxed text-muted-foreground">
                 <p className="flex items-start gap-4">
@@ -452,7 +452,7 @@ function ProductPage() {
                 <h3 className="mt-2 font-display text-2xl">Size Chart</h3>
               </div>
               <button aria-label="Close size chart" onClick={() => setChart(false)}>
-                <X className="h-5 w-5" strokeWidth={1.4} />
+                <X className="h-5 w-5" weight="light" />
               </button>
             </div>
             <table className="num mt-7 w-full text-left text-sm">

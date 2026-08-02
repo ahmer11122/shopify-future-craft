@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Minus, Plus, X } from "lucide-react";
+import { Minus, Plus, X } from "@phosphor-icons/react";
 import { formatPKR, getProduct, products } from "./data";
 import { FREE_SHIPPING, useCart } from "./cart";
 
@@ -24,7 +24,7 @@ export function CartDrawer() {
         <div className="flex items-center justify-between border-b border-border px-6 py-5">
           <p className="num eyebrow">Your Bag ({String(count).padStart(2, "0")})</p>
           <button aria-label="Close cart" onClick={() => setOpen(false)}>
-            <X className="h-5 w-5" strokeWidth={1.4} />
+            <X className="h-5 w-5" weight="light" />
           </button>
         </div>
 
@@ -66,7 +66,7 @@ export function CartDrawer() {
                     <div className="flex items-start justify-between gap-3">
                       <p className="font-display text-lg">{p.name}</p>
                       <button aria-label="Remove" onClick={() => remove(l.key)} className="text-muted-foreground hover:text-foreground">
-                        <X className="h-3.5 w-3.5" strokeWidth={1.5} />
+                        <X className="h-3.5 w-3.5" weight="light" />
                       </button>
                     </div>
                     <p className="mt-1 text-[0.72rem] text-muted-foreground">
@@ -75,11 +75,11 @@ export function CartDrawer() {
                     <div className="mt-4 flex items-center justify-between">
                       <div className="flex items-center border border-border">
                         <button aria-label="Decrease" className="px-2.5 py-1.5" onClick={() => setQty(l.key, l.qty - 1)}>
-                          <Minus className="h-3 w-3" strokeWidth={1.6} />
+                          <Minus className="h-3 w-3" weight="light" />
                         </button>
                         <span className="num w-8 text-center text-xs">{l.qty}</span>
                         <button aria-label="Increase" className="px-2.5 py-1.5" onClick={() => setQty(l.key, l.qty + 1)}>
-                          <Plus className="h-3 w-3" strokeWidth={1.6} />
+                          <Plus className="h-3 w-3" weight="light" />
                         </button>
                       </div>
                       <p className="num text-sm">{formatPKR(p.price * l.qty)}</p>
