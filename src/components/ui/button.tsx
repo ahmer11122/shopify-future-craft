@@ -59,7 +59,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        <span className="absolute inset-0 -translate-y-[100%] rounded-full bg-gold transition-transform duration-300 ease-out group-hover:translate-y-0 -z-10" />
+        <span className="absolute left-[-25%] top-[-50%] h-[200%] w-[150%] -translate-y-[76%] rounded-[50%] bg-gold transition-transform duration-500 ease-out group-hover:translate-y-0 -z-10" />
         <span className="relative z-10 flex items-center justify-center gap-2 transition-colors duration-300 group-hover:text-accent-foreground">
           {children}
         </span>
