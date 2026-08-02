@@ -93,7 +93,7 @@ function ProductPage() {
   };
 
   return (
-    <div className="pt-[92px] lg:pt-[104px]">
+    <div className="pt-[92px] lg:pt-[104px] overflow-x-hidden">
       <div className="mx-auto max-w-[1600px] px-5 pt-6 lg:px-10 lg:pt-8">
         <nav className="num flex flex-wrap items-center gap-2 text-[0.6rem] tracking-[0.16em] uppercase text-muted-foreground">
           <Link to="/" className="transition-colors hover:text-foreground">
@@ -122,7 +122,7 @@ function ProductPage() {
               className="no-scrollbar -mx-5 flex snap-x snap-mandatory overflow-x-auto scroll-smooth"
             >
               {product.gallery.map((src, i) => (
-                <div key={src + i} className="w-screen shrink-0 snap-center px-5">
+                <div key={src + i} className="w-full shrink-0 snap-center px-5">
                   <div className="aspect-[4/5] overflow-hidden bg-sand">
                     <img
                       src={src}
@@ -430,8 +430,8 @@ function ProductPage() {
       </div>
 
       {chart && (
-        <div className="fixed inset-0 z-[95] flex items-end justify-center bg-foreground/40 backdrop-blur-[2px] sm:items-center sm:p-6">
-          <div className="max-h-[86vh] w-full max-w-lg animate-[reveal-in_.4s_cubic-bezier(.22,1,.36,1)_both] overflow-y-auto bg-background p-6 sm:p-7">
+        <div className="fixed inset-0 z-[95] flex items-end justify-center bg-foreground/40 backdrop-blur-[2px] sm:items-center sm:p-6" onClick={() => setChart(false)}>
+          <div className="max-h-[86vh] w-full max-w-lg animate-[reveal-in_.4s_cubic-bezier(.22,1,.36,1)_both] overflow-y-auto bg-background p-6 sm:p-7" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="eyebrow text-muted-foreground">Measurements in inches</p>
