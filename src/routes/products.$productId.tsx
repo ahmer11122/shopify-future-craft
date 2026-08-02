@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { formatPKR, getProduct, products, sizeChart } from "@/components/store/data";
 import { useCart } from "@/components/store/cart";
 import { WhatsAppGlyph } from "@/components/store/Header";
-import { ProductCard, Stars } from "@/components/store/ProductCard";
+import { ProductCard } from "@/components/store/ProductCard";
 import { useReveal } from "@/hooks/useReveal";
 
 export const Route = createFileRoute("/products/$productId")({
@@ -53,7 +53,6 @@ export const Route = createFileRoute("/products/$productId")({
   component: ProductPage,
 });
 
-const tabs = ["Fabric & Care", "Shipping & Returns"] as const;
 
 function ProductPage() {
   const { productId } = Route.useParams();
@@ -68,7 +67,7 @@ function ProductPage() {
   const [qty, setQty] = useState(1);
   const [shot, setShot] = useState(0);
   const [chart, setChart] = useState(false);
-  const [tab, setTab] = useState<(typeof tabs)[number]>("Description");
+
   const scroller = useRef<HTMLDivElement>(null);
   useReveal();
 
@@ -199,175 +198,199 @@ function ProductPage() {
         </div>
 
         {/* ---------------- Buy column ---------------- */}
-        <div className="min-w-0 pb-24 lg:pb-0">
-          <p className="eyebrow text-muted-foreground">{product.fabric}</p>
-          <h1 className="mt-3 font-display text-[clamp(2.1rem,5.5vw,3.2rem)] leading-[1]">{product.name}</h1>
-
-          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
-            <Stars rating={product.rating} />
-            <span className="num text-[0.7rem] text-muted-foreground">
-              {product.rating.toFixed(1)} · {product.reviews} reviews
-            </span>
+        <div className="min-w-0 pb-24 lg:pb-0 flex flex-col">
+          {/* Header Section: Category, Title */}
+          <div className="mb-6">
+            <p className="eyebrow text-muted-foreground mb-3">{product.fabric}</p>
+            <h1 className="font-display text-[clamp(2.5rem,6vw,3.8rem)] leading-[1.05] text-foreground tracking-tight">{product.name}</h1>
           </div>
 
-          <div className="mt-5 flex flex-wrap items-baseline gap-x-4 gap-y-2">
-            <span className="num text-2xl">{formatPKR(product.price)}</span>
-            {product.compareAt && (
-              <>
-                <span className="num text-sm text-muted-foreground line-through">{formatPKR(product.compareAt)}</span>
-                <span className="num bg-gold-soft px-2.5 py-1 text-[0.6rem] tracking-[0.16em] uppercase">
-                  Save {Math.round((1 - product.price / product.compareAt) * 100)}%
-                </span>
-              </>
-            )}
-          </div>
-          <p className="mt-2 text-[0.7rem] text-muted-foreground">Inclusive of all taxes</p>
-
-          <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{product.description}</p>
-
-          {/* Colour */}
-          <div className="mt-8">
-            <p className="eyebrow text-muted-foreground">
-              Colour — <span className="text-foreground">{color}</span>
-              {product.colors.find((c) => c.name === color)?.soldOut && (
-                <span className="ml-2 normal-case tracking-normal text-muted-foreground">(sold out)</span>
+          {/* Price Section */}
+          <div className="mb-8">
+            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+              <span className="num text-4xl font-medium tracking-tight text-foreground">{formatPKR(product.price)}</span>
+              {product.compareAt && (
+                <>
+                  <span className="num text-xl text-muted-foreground line-through">{formatPKR(product.compareAt)}</span>
+                  <span className="num bg-gold/10 text-gold-foreground px-2.5 py-1 text-[0.7rem] font-semibold tracking-[0.15em] uppercase rounded-sm">
+                    Save {Math.round((1 - product.price / product.compareAt) * 100)}%
+                  </span>
+                </>
               )}
-            </p>
-            <div className="mt-3 flex flex-wrap gap-3">
-              {product.colors.map((c) => (
-                <button
-                  key={c.name}
-                  onClick={() => setColor(c.name)}
-                  title={c.soldOut ? `${c.name} — sold out` : c.name}
-                  aria-label={c.name}
-                  aria-pressed={color === c.name}
-                  className={`h-9 w-9 rounded-full ring-1 transition-all duration-300 ${
-                    color === c.name ? "ring-2 ring-gold ring-offset-2" : "ring-border hover:ring-foreground"
-                  } ${c.soldOut ? "swatch-out text-foreground" : ""}`}
-                  style={{ backgroundColor: c.hex }}
-                />
-              ))}
             </div>
           </div>
 
-          {/* Size */}
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
-            <p className="eyebrow">Size — Inches</p>
-            <button
-              onClick={() => setChart(true)}
-              className="flex items-center gap-2 border-b border-foreground pb-0.5 text-[0.66rem] tracking-[0.14em] uppercase transition-colors hover:border-gold hover:text-gold"
-            >
-              <Ruler className="h-3.5 w-3.5" strokeWidth={1.4} />
-              Size Chart
-            </button>
-          </div>
-          <div className="mt-4 grid grid-cols-5 gap-2 sm:flex sm:flex-wrap sm:gap-2.5">
-            {product.sizes.map((s) => {
-              const soldOut = outSizes.includes(s);
-              return (
-                <button
-                  key={s}
-                  onClick={() => setSize(s)}
-                  aria-pressed={size === s}
-                  className={`h-12 border text-xs transition-all duration-300 sm:w-12 ${
-                    soldOut
-                      ? "swatch-out border-border text-muted-foreground"
-                      : size === s
-                        ? "border-foreground bg-foreground text-background"
-                        : "border-border hover:border-foreground hover:shadow-[0_0_0_3px_color-mix(in_oklab,var(--gold)_16%,transparent)]"
-                  }`}
-                >
-                  {s}
-                </button>
-              );
-            })}
-          </div>
-          <p className="num mt-3 text-[0.7rem] text-muted-foreground">
-            {sizeUnavailable
-              ? `Size ${size} is sold out — we restock every second week.`
-              : product.stock <= 5
-                ? `Only ${product.stock} left in this size run`
-                : "In stock · ships in 24 hours"}
+          {/* Description */}
+          <p className="mb-10 text-[0.95rem] leading-relaxed text-muted-foreground max-w-[90%]">
+            {product.description}
           </p>
-
-          {/* Quantity + Add */}
-          <div className="mt-7 flex flex-wrap items-stretch gap-3">
-            <div className="flex h-14 shrink-0 items-center border border-border">
-              <button
-                aria-label="Decrease quantity"
-                className="grid h-full w-11 place-items-center text-muted-foreground transition-colors hover:text-foreground"
-                onClick={() => setQty((q) => Math.max(1, q - 1))}
-              >
-                <Minus className="h-3.5 w-3.5" strokeWidth={1.5} />
-              </button>
-              <span className="num w-8 text-center text-sm">{qty}</span>
-              <button
-                aria-label="Increase quantity"
-                className="grid h-full w-11 place-items-center text-muted-foreground transition-colors hover:text-foreground"
-                onClick={() => setQty((q) => Math.min(9, q + 1))}
-              >
-                <Plus className="h-3.5 w-3.5" strokeWidth={1.5} />
-              </button>
+          
+          {/* Variants Section - purely whitespace separated */}
+          <div className="space-y-10 mb-10">
+            {/* Colour */}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <p className="eyebrow text-muted-foreground">
+                  Colour <span className="mx-2">—</span> <span className="text-foreground font-medium">{color}</span>
+                  {product.colors.find((c) => c.name === color)?.soldOut && (
+                    <span className="ml-2 normal-case tracking-normal text-muted-foreground">(sold out)</span>
+                  )}
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3.5">
+                {product.colors.map((c) => (
+                  <button
+                    key={c.name}
+                    onClick={() => setColor(c.name)}
+                    title={c.soldOut ? `${c.name} — sold out` : c.name}
+                    aria-label={c.name}
+                    aria-pressed={color === c.name}
+                    className={`h-11 w-11 rounded-full ring-1 ring-offset-4 transition-all duration-300 ${
+                      color === c.name ? "ring-foreground ring-offset-background scale-110" : "ring-border/40 hover:ring-foreground/40 ring-offset-transparent"
+                    } ${c.soldOut ? "swatch-out text-foreground opacity-40" : "shadow-sm"}`}
+                    style={{ backgroundColor: c.hex }}
+                  />
+                ))}
+              </div>
             </div>
-            <Button
-              disabled={sizeUnavailable}
-              onClick={() => add(product.id, size, qty)}
-              className="h-14 min-w-0 flex-1 basis-40 px-5 py-0 text-[0.66rem] uppercase tracking-[0.2em] rounded-none gap-2"
-            >
-              <ShoppingCart className="h-4 w-4" />
-              {sizeUnavailable ? "Sold out" : "Add to Cart"}
-            </Button>
-            <button
-              aria-label="Save to wishlist"
-              className="hover-ring grid h-14 w-14 shrink-0 place-items-center border border-border"
-            >
-              <Heart className="h-4 w-4" strokeWidth={1.4} />
-            </button>
+
+            {/* Size */}
+            <div>
+              <div className="flex flex-wrap items-center justify-between mb-4">
+                <p className="eyebrow text-muted-foreground">
+                  Size <span className="mx-2">—</span> <span className="text-foreground font-medium">Inches</span>
+                </p>
+                <button
+                  onClick={() => setChart(true)}
+                  className="group flex items-center gap-2 text-[0.66rem] tracking-[0.15em] uppercase text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <Ruler className="h-3.5 w-3.5 group-hover:text-gold transition-colors" strokeWidth={1.5} />
+                  <span className="border-b border-border group-hover:border-gold transition-colors pb-0.5">Size Chart</span>
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {product.sizes.map((s) => {
+                  const soldOut = outSizes.includes(s);
+                  return (
+                    <button
+                      key={s}
+                      onClick={() => setSize(s)}
+                      aria-pressed={size === s}
+                      className={`h-12 text-[0.85rem] font-medium transition-all duration-300 min-w-[3.5rem] px-4 rounded-none ${
+                        soldOut
+                          ? "swatch-out border border-border/40 text-muted-foreground/40 bg-transparent"
+                          : size === s
+                            ? "border-2 border-foreground bg-foreground text-background shadow-md scale-[1.02]"
+                            : "border border-border/80 bg-transparent hover:border-foreground/60 text-foreground"
+                      }`}
+                    >
+                      {s}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
-          <Link to="/checkout" className="btn-ghost mt-3 h-14 w-full py-0">
-            Buy it now
-          </Link>
-
-
-
-          {/* Tabs */}
-          <div className="mt-10 border-t border-border">
-            <div className="flex flex-wrap gap-x-6 gap-y-3 pt-5">
-              {tabs.map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTab(t)}
-                  className={`link-line text-[0.64rem] tracking-[0.16em] uppercase transition-colors ${
-                    tab === t ? "is-on text-foreground" : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {t}
-                </button>
-              ))}
+          {/* Action Section */}
+          <div className="space-y-5">
+            {/* Stock Status Indicator - moved above cart for urgency */}
+            <div className="flex items-center gap-3">
+              <div className="relative flex h-2 w-2 items-center justify-center">
+                {!sizeUnavailable && product.stock > 5 && (
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+                )}
+                <span className={`relative inline-flex h-2 w-2 rounded-full ${sizeUnavailable ? 'bg-destructive' : product.stock <= 5 ? 'bg-orange-500' : 'bg-green-500'}`}></span>
+              </div>
+              <p className="num text-[0.8rem] text-foreground tracking-wide">
+                {sizeUnavailable
+                  ? `Size ${size} is sold out — restocks in 2 weeks`
+                  : product.stock <= 5
+                    ? `Only ${product.stock} left in this size run`
+                    : "In stock · ships in 24 hours"}
+              </p>
             </div>
-            <div className="pt-6 text-sm leading-relaxed text-muted-foreground">
-              {tab === "Fabric & Care" && (
-                <ul className="space-y-2.5">
+
+            <div className="flex flex-wrap items-stretch gap-3">
+              <div className="flex h-14 shrink-0 items-center border border-border/80 bg-transparent">
+                <button
+                  aria-label="Decrease quantity"
+                  className="grid h-full w-12 place-items-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/30"
+                  onClick={() => setQty((q) => Math.max(1, q - 1))}
+                >
+                  <Minus className="h-4 w-4" strokeWidth={1.5} />
+                </button>
+                <span className="num w-8 text-center font-medium text-[0.95rem]">{qty}</span>
+                <button
+                  aria-label="Increase quantity"
+                  className="grid h-full w-12 place-items-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/30"
+                  onClick={() => setQty((q) => Math.min(9, q + 1))}
+                >
+                  <Plus className="h-4 w-4" strokeWidth={1.5} />
+                </button>
+              </div>
+              
+              <Button
+                disabled={sizeUnavailable}
+                onClick={() => add(product.id, size, qty)}
+                className="h-14 min-w-0 flex-1 basis-40 px-6 text-[0.8rem] font-bold uppercase tracking-[0.2em] rounded-none shadow-[0_4px_14px_0_rgb(0,0,0,0.05)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.1)] transition-all gap-3"
+              >
+                <ShoppingCart className="h-4 w-4" />
+                {sizeUnavailable ? "Sold out" : "Add to Cart"}
+              </Button>
+              
+              <button
+                aria-label="Save to wishlist"
+                className="grid h-14 w-14 shrink-0 place-items-center border border-border/80 bg-transparent text-muted-foreground hover:text-foreground hover:border-foreground/50 transition-colors"
+              >
+                <Heart className="h-5 w-5" strokeWidth={1.5} />
+              </button>
+            </div>
+
+            <Link to="/checkout" className="flex h-14 w-full items-center justify-center border border-foreground bg-transparent text-[0.8rem] font-bold uppercase tracking-[0.2em] text-foreground transition-all hover:bg-foreground hover:text-background">
+              Buy it now
+            </Link>
+          </div>
+
+          {/* Minimal Accordion for Details (replacing tabs and duplicate features) */}
+          <div className="mt-14 space-y-px bg-border/40">
+            <details className="group bg-background" open>
+              <summary className="flex cursor-pointer list-none items-center justify-between py-5 text-[0.75rem] font-medium tracking-[0.15em] uppercase transition-colors hover:text-gold">
+                Fabric & Care
+                <Plus className="h-4 w-4 transition-transform group-open:rotate-45" strokeWidth={1.5} />
+              </summary>
+              <div className="pb-6 text-[0.9rem] leading-relaxed text-muted-foreground">
+                <ul className="space-y-4">
                   {product.details.map((d) => (
-                    <li key={d} className="flex gap-3">
-                      <span className="mt-2 h-px w-4 shrink-0 bg-gold" />
+                    <li key={d} className="flex gap-4">
+                      <span className="mt-2.5 h-[2px] w-4 shrink-0 bg-gold/60" />
                       {d}
                     </li>
                   ))}
                 </ul>
-              )}
-              {tab === "Shipping & Returns" && (
-                <p>
-                  Dispatched from Lahore within 24 hours. Rs. 250 flat shipping, free over Rs. 5,000. Cash on delivery
-                  nationwide. Exchange within 7 days, unworn and with tags — start it on WhatsApp or the{" "}
-                  <Link to="/track" className="link-line text-foreground">
-                    tracking page
-                  </Link>
-                  .
+              </div>
+            </details>
+            <details className="group bg-background">
+              <summary className="flex cursor-pointer list-none items-center justify-between py-5 text-[0.75rem] font-medium tracking-[0.15em] uppercase transition-colors hover:text-gold">
+                Shipping & Returns
+                <Plus className="h-4 w-4 transition-transform group-open:rotate-45" strokeWidth={1.5} />
+              </summary>
+              <div className="pb-6 space-y-5 text-[0.9rem] leading-relaxed text-muted-foreground">
+                <p className="flex items-start gap-4">
+                  <span className="mt-2.5 h-[2px] w-4 shrink-0 bg-gold/60" />
+                  <span>Dispatched from Lahore within 24 hours. Rs. 250 flat shipping, free over Rs. 5,000. Cash on delivery nationwide.</span>
                 </p>
-              )}
-            </div>
+                <p className="flex items-start gap-4">
+                  <span className="mt-2.5 h-[2px] w-4 shrink-0 bg-gold/60" />
+                  <span>
+                    Exchange within 7 days, unworn and with tags — start it on WhatsApp or the{" "}
+                    <Link to="/track" className="link-line text-foreground font-medium">
+                      tracking page
+                    </Link>.
+                  </span>
+                </p>
+              </div>
+            </details>
           </div>
         </div>
       </div>
