@@ -28,7 +28,7 @@ export function CategoryTiles() {
         </Link>
       </div>
 
-      <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
+      <div className="mt-12 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:mt-14 lg:grid-cols-6">
         {collections.map((c, i) => (
           <Link
             key={c.handle}
