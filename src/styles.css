@@ -248,57 +248,101 @@
    Buttons & links
    --------------------------------------------------------------- */
 
+/* Liquid fill: rises from the bottom on enter, drains upward on leave.
+   Implemented with background-size so label text always stays on top. */
 @utility btn-primary {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  background: var(--foreground);
+  gap: 0.6rem;
+  background-color: var(--foreground);
   color: var(--background);
+  background-image: linear-gradient(var(--gold), var(--gold));
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
+  background-size: 100% 0%;
   padding: 1.05rem 2.4rem;
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  transition: color 0.45s ease;
+  line-height: 1;
+  transition:
+    background-size 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    color 0.35s ease;
 
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--gold);
-    transform: translateY(101%);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: -1;
-  }
   &:hover {
     color: var(--accent-foreground);
+    background-position: 50% 100%;
+    background-size: 100% 100%;
   }
-  &:hover::after {
-    transform: translateY(0);
-  }
-  & > * {
-    position: relative;
+  &:disabled {
+    opacity: 0.4;
+    pointer-events: none;
   }
 }
 
+/* Outlined button, black liquid fill */
 @utility btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.6rem;
   border: 1px solid var(--border);
+  background-color: transparent;
+  background-image: linear-gradient(var(--foreground), var(--foreground));
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
+  background-size: 100% 0%;
   padding: 0.95rem 2.4rem;
   font-size: 0.65rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  transition: border-color 0.4s ease, background-color 0.4s ease, color 0.4s ease;
+  line-height: 1;
+  transition:
+    background-size 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    border-color 0.35s ease,
+    color 0.35s ease;
 
   &:hover {
     border-color: var(--foreground);
-    background: var(--foreground);
     color: var(--background);
+    background-position: 50% 100%;
+    background-size: 100% 100%;
   }
 }
+
+/* Outlined button on dark surfaces — ivory liquid fill */
+@utility btn-ghost-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border: 1px solid color-mix(in oklab, var(--background) 40%, transparent);
+  color: var(--background);
+  background-image: linear-gradient(var(--background), var(--background));
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
+  background-size: 100% 0%;
+  padding: 0.95rem 2.4rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1;
+  transition:
+    background-size 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    border-color 0.35s ease,
+    color 0.35s ease;
+
+  &:hover {
+    border-color: var(--background);
+    color: var(--foreground);
+    background-position: 50% 100%;
+    background-size: 100% 100%;
+  }
+}
+
+
 
 @utility link-line {
   position: relative;
