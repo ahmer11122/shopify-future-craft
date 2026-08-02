@@ -458,6 +458,7 @@
    --------------------------------------------------------------- */
 
 @utility num {
+  font-family: var(--font-display);
   font-variant-numeric: tabular-nums lining-nums;
   font-feature-settings: "tnum" 1, "lnum" 1, "ss01" 1;
   letter-spacing: 0.01em;
