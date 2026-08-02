@@ -53,7 +53,7 @@ export const Route = createFileRoute("/products/$productId")({
   component: ProductPage,
 });
 
-const tabs = ["Description", "Fabric & Care", "Shipping & Returns"] as const;
+const tabs = ["Fabric & Care", "Shipping & Returns"] as const;
 
 function ProductPage() {
   const { productId } = Route.useParams();
@@ -183,8 +183,8 @@ function ProductPage() {
                 </button>
               ))}
             </div>
-            <div className="group relative flex-1 overflow-hidden bg-sand">
-              <div className="aspect-[4/5]">
+            <div className="relative flex-1 overflow-hidden bg-sand">
+              <div className="group aspect-[4/5]">
                 <img
                   key={product.gallery[shot]}
                   src={product.gallery[shot]}
@@ -194,7 +194,6 @@ function ProductPage() {
                   className="h-full w-full animate-[reveal-in_.7s_cubic-bezier(.22,1,.36,1)_both] object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.05]"
                 />
               </div>
-              {product.tag && <span className="tag-chip absolute bottom-4 left-4">{product.tag}</span>}
             </div>
           </div>
         </div>
@@ -330,26 +329,7 @@ function ProductPage() {
             Buy it now
           </Link>
 
-          <div className="mt-7 divide-y divide-border border border-border bg-sand/50">
-            <p className="flex items-center gap-3 px-5 py-4 text-[0.78rem]">
-              <ShieldCheck className="h-4 w-4 shrink-0 text-gold" strokeWidth={1.4} />
-              Cash on Delivery available across Pakistan
-            </p>
-            <p className="flex items-center gap-3 px-5 py-4 text-[0.78rem] text-muted-foreground">
-              <Truck className="h-4 w-4 shrink-0 text-gold" strokeWidth={1.4} />
-              Dispatched from Lahore in 24 hours · free over Rs. 5,000
-            </p>
-            <p className="flex items-center gap-3 px-5 py-4 text-[0.78rem] text-muted-foreground">
-              <RefreshCw className="h-4 w-4 shrink-0 text-gold" strokeWidth={1.4} />7 day exchange · unworn with tags
-            </p>
-            <a
-              href="https://wa.me/920000000000"
-              className="flex items-center gap-3 px-5 py-4 text-[0.78rem] text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <WhatsAppGlyph className="h-4 w-4 shrink-0 text-whatsapp" />
-              Ask about fabric or fit on WhatsApp
-            </a>
-          </div>
+
 
           {/* Tabs */}
           <div className="mt-10 border-t border-border">
@@ -367,7 +347,6 @@ function ProductPage() {
               ))}
             </div>
             <div className="pt-6 text-sm leading-relaxed text-muted-foreground">
-              {tab === "Description" && <p>{product.description}</p>}
               {tab === "Fabric & Care" && (
                 <ul className="space-y-2.5">
                   {product.details.map((d) => (

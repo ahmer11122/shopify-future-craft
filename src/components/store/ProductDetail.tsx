@@ -95,23 +95,7 @@ export function ProductDetail({ onAdd }: { onAdd: () => void }) {
             </button>
           </div>
 
-          <div className="mt-6 space-y-3 border border-border bg-background p-5">
-            <p className="flex items-center gap-3 text-[0.78rem]">
-              <ShieldCheck className="h-4 w-4 text-gold" strokeWidth={1.4} />
-              Cash on Delivery available across Pakistan
-            </p>
-            <p className="flex items-center gap-3 text-[0.78rem] text-muted-foreground">
-              <span className="h-4 w-4" />
-              7 day exchange · unworn with tags · return charges Rs. 250
-            </p>
-            <a
-              href="https://wa.me/920000000000"
-              className="flex items-center gap-3 text-[0.78rem] text-muted-foreground transition-colors hover:text-gold"
-            >
-              <WhatsAppGlyph className="h-4 w-4 text-whatsapp" />
-              Ask about fabric or fit on WhatsApp
-            </a>
-          </div>
+
         </div>
       </div>
 
