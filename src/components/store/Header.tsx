@@ -341,15 +341,17 @@ export function Header() {
           <div className="flex items-center justify-end gap-4 lg:gap-5">
             <button
               onClick={() => setSearch(true)}
-              className={`hidden items-center gap-3 border px-4 py-2 text-[0.68rem] tracking-[0.1em] transition-colors md:flex ${
+              className={`group hidden w-44 items-center gap-3 border px-4 py-2.5 text-[0.66rem] tracking-[0.1em] transition-all duration-500 ease-out hover:w-56 md:flex ${
                 light
                   ? "border-background/35 text-background/80 hover:border-background"
-                  : "border-border/80 bg-background/50 text-muted-foreground hover:border-foreground hover:text-foreground"
+                  : "border-border/80 bg-sand/40 text-muted-foreground hover:border-foreground hover:bg-background hover:text-foreground"
               }`}
             >
-              <Search className="h-3.5 w-3.5" strokeWidth={1.5} />
-              Search
-              <kbd className="border border-current/30 px-1.5 py-0.5 text-[0.55rem] tracking-normal opacity-70">⌘K</kbd>
+              <Search className="h-3.5 w-3.5 shrink-0 transition-transform duration-500 group-hover:scale-110" strokeWidth={1.5} />
+              <span className="truncate">Search the store</span>
+              <kbd className="num ml-auto shrink-0 border border-current/25 px-1.5 py-0.5 text-[0.55rem] tracking-normal opacity-60">
+                ⌘K
+              </kbd>
             </button>
             <button aria-label="Search" onClick={() => setSearch(true)} className="md:hidden">
               <Search className="h-5 w-5" strokeWidth={1.4} />
@@ -359,10 +361,13 @@ export function Header() {
             </Link>
             <button aria-label="Cart" onClick={() => setCartOpen(true)} className="relative transition-colors hover:text-gold">
               <ShoppingBag className="h-5 w-5" strokeWidth={1.4} />
-              <span className="num absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center bg-gold text-[0.58rem] font-medium text-accent-foreground">
-                {count}
-              </span>
+              {count > 0 && (
+                <span className="num absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center bg-gold text-[0.58rem] font-medium text-accent-foreground">
+                  {count}
+                </span>
+              )}
             </button>
+
           </div>
         </div>
 
