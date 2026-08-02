@@ -357,14 +357,14 @@ function ProductPage() {
               <Button
                 disabled={sizeUnavailable}
                 onClick={() => add(product.id, size, qty)}
-                className="h-14 min-w-0 flex-1 px-6 text-[0.8rem] font-bold uppercase tracking-[0.2em] rounded-none shadow-[0_4px_14px_0_rgb(0,0,0,0.05)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.1)] transition-all gap-3 w-full"
+                className="min-h-[3.5rem] h-auto py-4 min-w-0 flex-1 px-6 text-[0.8rem] font-bold uppercase tracking-[0.2em] rounded-none shadow-[0_4px_14px_0_rgb(0,0,0,0.05)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.1)] transition-all gap-3 w-full"
               >
                 <ShoppingCart className="h-4 w-4 hidden sm:block" />
                 {sizeUnavailable ? "Sold out" : "Add to Cart"}
               </Button>
             </div>
 
-            <Link to="/checkout" className="flex h-14 w-full items-center justify-center border border-foreground bg-transparent text-[0.8rem] font-bold uppercase tracking-[0.2em] text-foreground transition-all hover:bg-foreground hover:text-background">
+            <Link to="/checkout" className="flex min-h-[3.5rem] h-auto py-4 w-full items-center justify-center border border-foreground bg-transparent text-[0.8rem] font-bold uppercase tracking-[0.2em] text-foreground transition-all hover:bg-foreground hover:text-background">
               Buy it now
             </Link>
           </div>
@@ -437,7 +437,7 @@ function ProductPage() {
         <Button
           disabled={sizeUnavailable}
           onClick={() => add(product.id, size, qty)}
-          className="h-12 w-full max-w-[170px] px-2 text-[0.7rem] font-bold uppercase tracking-[0.15em] rounded-none shadow-[0_4px_14px_0_rgb(0,0,0,0.05)]"
+          className="min-h-[3rem] h-auto py-3 w-full max-w-[170px] px-2 text-[0.7rem] font-bold uppercase tracking-[0.15em] rounded-none shadow-[0_4px_14px_0_rgb(0,0,0,0.05)]"
         >
           {sizeUnavailable ? "Sold out" : "Add to Cart"}
         </Button>
