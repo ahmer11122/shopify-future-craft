@@ -464,13 +464,96 @@
 }
 
 @utility btn-on-dark {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
 
   &:hover {
     color: var(--accent-foreground);
   }
 }
+
+/* ---------------------------------------------------------------
+   Product & UI primitives — tags, swatches, fields, popovers
+   --------------------------------------------------------------- */
+
+/* Editorial tag: sits low on the image so it never covers a face */
+@utility tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: color-mix(in oklab, var(--background) 92%, transparent);
+  backdrop-filter: blur(8px);
+  padding: 0.4rem 0.7rem 0.4rem 0.6rem;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1;
+  border-left: 2px solid var(--gold);
+  white-space: nowrap;
+}
+
+/* Unavailable variant — visible, struck through, not hidden */
+@utility swatch-out {
+  position: relative;
+  opacity: 0.45;
+  cursor: not-allowed;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top left,
+      transparent calc(50% - 0.5px),
+      currentColor calc(50% - 0.5px),
+      currentColor calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    );
+  }
+}
+
+@utility field {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 0.9rem 1rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold) 18%, transparent);
+  }
+}
+
+/* Refined hover outline used on cards, swatches, chips */
+@utility hover-ring {
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, color 0.35s ease;
+
+  &:hover {
+    border-color: var(--foreground);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold) 16%, transparent);
+  }
+}
+
+@utility pop-in {
+  animation: pop-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: top right;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pop-in { animation: none !important; }
+}
+
 
 /* Hero slide drift */
 @utility kenburns {
