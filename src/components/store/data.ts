@@ -58,6 +58,7 @@ export const products: Product[] = [
       { name: "Ivory", hex: "#efe7d8" },
     ],
     sizes: ["XS", "S", "M", "L"],
+    soldOutSizes: ["XS"]
     rating: 4.8,
     reviews: 214,
     new: true,
@@ -83,9 +84,10 @@ export const products: Product[] = [
     category: "Formal",
     colors: [
       { name: "Maroon", hex: "#6d1f2c" },
-      { name: "Onyx", hex: "#1c1c1c" },
+      { name: "Onyx", hex: "#1c1c1c", soldOut: true },
     ],
     sizes: ["S", "M", "L", "XL"],
+    soldOutSizes: ["XL"]
     rating: 4.9,
     reviews: 388,
     stock: 5,
@@ -132,7 +134,7 @@ export const products: Product[] = [
     category: "Unstitched",
     colors: [
       { name: "Onyx", hex: "#1c1c1c" },
-      { name: "Gold", hex: "#c5a059" },
+      { name: "Gold", hex: "#c5a059", soldOut: true },
     ],
     sizes: ["S", "M", "L", "XL"],
     rating: 4.8,
@@ -154,6 +156,7 @@ export const products: Product[] = [
     category: "Lawn",
     colors: [{ name: "Sage", hex: "#9aa886" }],
     sizes: ["S", "M", "L"],
+    soldOutSizes: ["L"]
     rating: 4.9,
     reviews: 74,
     new: true,
@@ -178,6 +181,7 @@ export const products: Product[] = [
       { name: "Gold", hex: "#c5a059" },
     ],
     sizes: ["M", "L", "XL"],
+    soldOutSizes: ["M"]
     rating: 5,
     reviews: 41,
     stock: 4,
