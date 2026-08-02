@@ -80,6 +80,21 @@ function ProductPage() {
     scroller.current?.scrollTo({ left: 0 });
   }, [productId, firstSize, firstColor]);
 
+  // Auto-advance mobile carousel
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (window.innerWidth < 1024) {
+        setShot((s) => {
+          const next = (s + 1) % product.gallery.length;
+          const el = scroller.current;
+          if (el) el.scrollTo({ left: next * el.clientWidth, behavior: "smooth" });
+          return next;
+        });
+      }
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [product.gallery.length]);
+
   const related = products.filter((p) => p.id !== product.id && p.category === product.category);
   const fill = products.filter((p) => p.id !== product.id);
   const suggestions = (related.length >= 3 ? related : fill).slice(0, 4);
@@ -311,40 +326,42 @@ function ProductPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-stretch gap-3">
-              <div className="flex h-14 shrink-0 items-center border border-border/80 bg-transparent">
+            <div className="flex flex-col sm:flex-row items-stretch gap-4 sm:gap-3">
+              <div className="flex items-stretch gap-3 w-full sm:w-auto">
+                <div className="flex h-14 flex-1 sm:flex-none items-center border border-border/80 bg-transparent">
+                  <button
+                    aria-label="Decrease quantity"
+                    className="grid h-full w-14 place-items-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/30"
+                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  >
+                    <Minus className="h-4 w-4" strokeWidth={1.5} />
+                  </button>
+                  <span className="num flex-1 text-center font-medium text-[1rem] sm:w-10">{qty}</span>
+                  <button
+                    aria-label="Increase quantity"
+                    className="grid h-full w-14 place-items-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/30"
+                    onClick={() => setQty((q) => Math.min(9, q + 1))}
+                  >
+                    <Plus className="h-4 w-4" strokeWidth={1.5} />
+                  </button>
+                </div>
+                
                 <button
-                  aria-label="Decrease quantity"
-                  className="grid h-full w-12 place-items-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/30"
-                  onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  aria-label="Save to wishlist"
+                  className="grid h-14 w-14 shrink-0 place-items-center border border-border/80 bg-transparent text-muted-foreground hover:text-foreground hover:border-foreground/50 transition-colors"
                 >
-                  <Minus className="h-4 w-4" strokeWidth={1.5} />
-                </button>
-                <span className="num w-8 text-center font-medium text-[0.95rem]">{qty}</span>
-                <button
-                  aria-label="Increase quantity"
-                  className="grid h-full w-12 place-items-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/30"
-                  onClick={() => setQty((q) => Math.min(9, q + 1))}
-                >
-                  <Plus className="h-4 w-4" strokeWidth={1.5} />
+                  <Heart className="h-5 w-5" strokeWidth={1.5} />
                 </button>
               </div>
               
               <Button
                 disabled={sizeUnavailable}
                 onClick={() => add(product.id, size, qty)}
-                className="h-14 min-w-0 flex-1 basis-40 px-6 text-[0.8rem] font-bold uppercase tracking-[0.2em] rounded-none shadow-[0_4px_14px_0_rgb(0,0,0,0.05)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.1)] transition-all gap-3"
+                className="h-14 min-w-0 flex-1 px-6 text-[0.8rem] font-bold uppercase tracking-[0.2em] rounded-none shadow-[0_4px_14px_0_rgb(0,0,0,0.05)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.1)] transition-all gap-3 w-full"
               >
-                <ShoppingCart className="h-4 w-4" />
+                <ShoppingCart className="h-4 w-4 hidden sm:block" />
                 {sizeUnavailable ? "Sold out" : "Add to Cart"}
               </Button>
-              
-              <button
-                aria-label="Save to wishlist"
-                className="grid h-14 w-14 shrink-0 place-items-center border border-border/80 bg-transparent text-muted-foreground hover:text-foreground hover:border-foreground/50 transition-colors"
-              >
-                <Heart className="h-5 w-5" strokeWidth={1.5} />
-              </button>
             </div>
 
             <Link to="/checkout" className="flex h-14 w-full items-center justify-center border border-foreground bg-transparent text-[0.8rem] font-bold uppercase tracking-[0.2em] text-foreground transition-all hover:bg-foreground hover:text-background">
@@ -412,19 +429,16 @@ function ProductPage() {
       </section>
 
       {/* ---------------- Mobile sticky buy bar ---------------- */}
-      <div className="fixed inset-x-0 bottom-0 z-[60] flex items-center gap-3 border-t border-border bg-background/95 px-4 py-3 backdrop-blur-xl lg:hidden">
-        <div className="min-w-0">
-          <p className="num text-sm leading-tight">{formatPKR(product.price * qty)}</p>
-          <p className="truncate text-[0.62rem] tracking-[0.1em] uppercase text-muted-foreground">
-            {product.name} · {size}
-          </p>
+      <div className="fixed inset-x-0 bottom-0 z-[60] flex items-center justify-between gap-4 border-t border-border bg-background/95 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-xl lg:hidden shadow-[0_-4px_24px_rgba(0,0,0,0.02)]">
+        <div className="flex flex-col min-w-0 shrink-0">
+          <span className="text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground mb-1">{product.name} — {size}</span>
+          <span className="num text-[1.15rem] font-medium tracking-tight leading-none text-foreground">{formatPKR(product.price * qty)}</span>
         </div>
         <Button
           disabled={sizeUnavailable}
           onClick={() => add(product.id, size, qty)}
-          className="ml-auto h-12 flex-1 px-4 py-0 text-[0.62rem] uppercase tracking-[0.2em] rounded-none gap-2"
+          className="h-12 w-full max-w-[170px] px-2 text-[0.7rem] font-bold uppercase tracking-[0.15em] rounded-none shadow-[0_4px_14px_0_rgb(0,0,0,0.05)]"
         >
-          <ShoppingCart className="h-4 w-4" />
           {sizeUnavailable ? "Sold out" : "Add to Cart"}
         </Button>
       </div>
