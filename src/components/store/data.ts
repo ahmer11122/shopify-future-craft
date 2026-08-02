@@ -29,14 +29,17 @@ export type Product = {
   back: string;
   gallery: string[];
   category: Category;
-  colors: { name: string; hex: string }[];
+  colors: { name: string; hex: string; soldOut?: boolean }[];
   sizes: string[];
+  /** Sizes shown but marked unavailable rather than hidden. */
+  soldOutSizes?: string[];
   rating: number;
   reviews: number;
   description: string;
   details: string[];
   new?: boolean;
   stock: number;
+
 };
 
 export const products: Product[] = [
