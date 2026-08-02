@@ -248,57 +248,101 @@
    Buttons & links
    --------------------------------------------------------------- */
 
+/* Liquid fill: rises from the bottom on enter, drains upward on leave.
+   Implemented with background-size so label text always stays on top. */
 @utility btn-primary {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  background: var(--foreground);
+  gap: 0.6rem;
+  background-color: var(--foreground);
   color: var(--background);
+  background-image: linear-gradient(var(--gold), var(--gold));
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
+  background-size: 100% 0%;
   padding: 1.05rem 2.4rem;
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  transition: color 0.45s ease;
+  line-height: 1;
+  transition:
+    background-size 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    color 0.35s ease;
 
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--gold);
-    transform: translateY(101%);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: -1;
-  }
   &:hover {
     color: var(--accent-foreground);
+    background-position: 50% 100%;
+    background-size: 100% 100%;
   }
-  &:hover::after {
-    transform: translateY(0);
-  }
-  & > * {
-    position: relative;
+  &:disabled {
+    opacity: 0.4;
+    pointer-events: none;
   }
 }
 
+/* Outlined button, black liquid fill */
 @utility btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.6rem;
   border: 1px solid var(--border);
+  background-color: transparent;
+  background-image: linear-gradient(var(--foreground), var(--foreground));
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
+  background-size: 100% 0%;
   padding: 0.95rem 2.4rem;
   font-size: 0.65rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  transition: border-color 0.4s ease, background-color 0.4s ease, color 0.4s ease;
+  line-height: 1;
+  transition:
+    background-size 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    border-color 0.35s ease,
+    color 0.35s ease;
 
   &:hover {
     border-color: var(--foreground);
-    background: var(--foreground);
     color: var(--background);
+    background-position: 50% 100%;
+    background-size: 100% 100%;
   }
 }
+
+/* Outlined button on dark surfaces — ivory liquid fill */
+@utility btn-ghost-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border: 1px solid color-mix(in oklab, var(--background) 40%, transparent);
+  color: var(--background);
+  background-image: linear-gradient(var(--background), var(--background));
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
+  background-size: 100% 0%;
+  padding: 0.95rem 2.4rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1;
+  transition:
+    background-size 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    border-color 0.35s ease,
+    color 0.35s ease;
+
+  &:hover {
+    border-color: var(--background);
+    color: var(--foreground);
+    background-position: 50% 100%;
+    background-size: 100% 100%;
+  }
+}
+
+
 
 @utility link-line {
   position: relative;
@@ -420,13 +464,96 @@
 }
 
 @utility btn-on-dark {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
 
   &:hover {
     color: var(--accent-foreground);
   }
 }
+
+/* ---------------------------------------------------------------
+   Product & UI primitives — tags, swatches, fields, popovers
+   --------------------------------------------------------------- */
+
+/* Editorial tag: sits low on the image so it never covers a face */
+@utility tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: color-mix(in oklab, var(--background) 92%, transparent);
+  backdrop-filter: blur(8px);
+  padding: 0.4rem 0.7rem 0.4rem 0.6rem;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1;
+  border-left: 2px solid var(--gold);
+  white-space: nowrap;
+}
+
+/* Unavailable variant — visible, struck through, not hidden */
+@utility swatch-out {
+  position: relative;
+  opacity: 0.45;
+  cursor: not-allowed;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top left,
+      transparent calc(50% - 0.5px),
+      currentColor calc(50% - 0.5px),
+      currentColor calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    );
+  }
+}
+
+@utility field {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 0.9rem 1rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold) 18%, transparent);
+  }
+}
+
+/* Refined hover outline used on cards, swatches, chips */
+@utility hover-ring {
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, color 0.35s ease;
+
+  &:hover {
+    border-color: var(--foreground);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold) 16%, transparent);
+  }
+}
+
+@utility pop-in {
+  animation: pop-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: top right;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pop-in { animation: none !important; }
+}
+
 
 /* Hero slide drift */
 @utility kenburns {

@@ -29,14 +29,17 @@ export type Product = {
   back: string;
   gallery: string[];
   category: Category;
-  colors: { name: string; hex: string }[];
+  colors: { name: string; hex: string; soldOut?: boolean }[];
   sizes: string[];
+  /** Sizes shown but marked unavailable rather than hidden. */
+  soldOutSizes?: string[];
   rating: number;
   reviews: number;
   description: string;
   details: string[];
   new?: boolean;
   stock: number;
+
 };
 
 export const products: Product[] = [
@@ -55,6 +58,7 @@ export const products: Product[] = [
       { name: "Ivory", hex: "#efe7d8" },
     ],
     sizes: ["XS", "S", "M", "L"],
+    soldOutSizes: ["XS"],
     rating: 4.8,
     reviews: 214,
     new: true,
@@ -80,9 +84,10 @@ export const products: Product[] = [
     category: "Formal",
     colors: [
       { name: "Maroon", hex: "#6d1f2c" },
-      { name: "Onyx", hex: "#1c1c1c" },
+      { name: "Onyx", hex: "#1c1c1c", soldOut: true },
     ],
     sizes: ["S", "M", "L", "XL"],
+    soldOutSizes: ["XL"],
     rating: 4.9,
     reviews: 388,
     stock: 5,
@@ -129,7 +134,7 @@ export const products: Product[] = [
     category: "Unstitched",
     colors: [
       { name: "Onyx", hex: "#1c1c1c" },
-      { name: "Gold", hex: "#c5a059" },
+      { name: "Gold", hex: "#c5a059", soldOut: true },
     ],
     sizes: ["S", "M", "L", "XL"],
     rating: 4.8,
@@ -151,6 +156,7 @@ export const products: Product[] = [
     category: "Lawn",
     colors: [{ name: "Sage", hex: "#9aa886" }],
     sizes: ["S", "M", "L"],
+    soldOutSizes: ["L"],
     rating: 4.9,
     reviews: 74,
     new: true,
@@ -175,6 +181,7 @@ export const products: Product[] = [
       { name: "Gold", hex: "#c5a059" },
     ],
     sizes: ["M", "L", "XL"],
+    soldOutSizes: ["M"],
     rating: 5,
     reviews: 41,
     stock: 4,
@@ -268,6 +275,27 @@ export const collections: Collection[] = [
     match: (p) => p.category === "Formal",
   },
   {
+    handle: "chikankari",
+    title: "Chikankari",
+    blurb: "Hand-worked Lucknow stitch on fine lawn and cotton net.",
+    image: cat3,
+    match: (p) => /chikankari/i.test(p.fabric) || /chikankari/i.test(p.description),
+  },
+  {
+    handle: "wedding",
+    title: "Wedding & Shaadi",
+    blurb: "Zari, chiffon and hand embroidery for the whole function season.",
+    image: cat2,
+    match: (p) => p.category === "Formal",
+  },
+  {
+    handle: "everyday",
+    title: "Everyday Edit",
+    blurb: "Light lawn and stitched kurtas under Rs. 10,000.",
+    image: cat4,
+    match: (p) => p.price < 10000,
+  },
+  {
     handle: "sale",
     title: "Sale",
     blurb: "Final reductions on last-season formals and unstitched.",
@@ -338,4 +366,16 @@ export const heroSlides = [
     tail: "",
     caption: "120+ thread count cambric, photographed unedited",
   },
+];
+
+/** Labels stocked in the Mehr multi-brand edit — rendered as typographic marks. */
+export const brands = [
+  { name: "Zara Shahjahan", note: "Luxe Lawn", since: "2012" },
+  { name: "Sana Safinaz", note: "Prêt", since: "1989" },
+  { name: "Elan", note: "Couture", since: "2010" },
+  { name: "Khaadi", note: "Everyday", since: "1998" },
+  { name: "Maria B.", note: "Formals", since: "1999" },
+  { name: "Nishat Linen", note: "Unstitched", since: "1951" },
+  { name: "Cross Stitch", note: "Lawn", since: "2013" },
+  { name: "Gul Ahmed", note: "Heritage", since: "1953" },
 ];
