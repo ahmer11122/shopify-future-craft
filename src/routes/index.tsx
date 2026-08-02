@@ -3,7 +3,7 @@ import { Hero } from "@/components/store/Hero";
 import { TrustBand } from "@/components/store/TrustBand";
 import { CategoryTiles } from "@/components/store/CategoryTiles";
 import { ImageRail, TestimonialRail, Community } from "@/components/store/Marquee";
-import { Editorial } from "@/components/store/Editorial";
+import { Brands } from "@/components/store/Brands";
 import { EmailBar } from "@/components/store/Floating";
 import { ProductCard } from "@/components/store/ProductCard";
 import { products } from "@/components/store/data";
@@ -59,7 +59,7 @@ function Index() {
       </section>
 
       <ImageRail />
-      <Editorial />
+      <Brands />
 
       <section className="mx-auto max-w-[1400px] px-5 py-24 lg:px-10 lg:py-32">
         <div className="flex flex-wrap items-end justify-between gap-6">
