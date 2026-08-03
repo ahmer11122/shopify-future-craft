@@ -29,7 +29,7 @@ export function CategoryTiles() {
         </Link>
       </div>
 
-      <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 lg:mt-16 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-16">
+      <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:mt-14 lg:grid-cols-4 lg:gap-6">
         {featured.map((c, i) => {
           const count = productsIn(c).length;
           return (
@@ -52,12 +52,12 @@ export function CategoryTiles() {
                 />
               </div>
 
-              <div className="mt-4 sm:mt-6 flex items-start justify-between gap-4">
+              <div className="mt-4 sm:mt-5 flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="font-display text-xl sm:text-2xl lg:text-3xl tracking-wide text-foreground group-hover:text-gold transition-colors duration-300">
+                  <h3 className="font-display text-lg sm:text-xl lg:text-2xl tracking-wide text-foreground group-hover:text-gold transition-colors duration-300">
                     {c.title}
                   </h3>
-                  <p className="mt-1 text-[0.7rem] sm:text-xs lg:text-sm tracking-wider text-muted-foreground line-clamp-2">
+                  <p className="mt-1 text-[0.7rem] sm:text-xs tracking-wider text-muted-foreground line-clamp-2">
                     {c.blurb}
                   </p>
                 </div>
