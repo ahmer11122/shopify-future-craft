@@ -44,13 +44,9 @@ export function Hero() {
       <div className="relative z-30 mx-auto flex h-full max-w-[1400px] flex-col justify-end px-6 pb-24 sm:pb-28 lg:pb-32 text-foreground lg:px-12">
         <div 
           key={i} 
-          className={`max-w-xl w-full ${
-            slide.desktopAlign === 'right' ? 'sm:ml-auto sm:text-left' : ''
-          } ${
-            (slide as any).mobileAlign === 'right'
-              ? 'ml-auto text-right flex flex-col items-end sm:items-start sm:text-left sm:ml-auto'
-              : ''
-          }`}
+          className={`max-w-xl w-full text-left items-start ${
+            slide.desktopAlign === 'right' ? 'sm:ml-auto' : ''
+          } ${(slide as any).mobileShift || ''}`}
         >
           <div className="reveal flex flex-col gap-3 sm:gap-4" style={{ animationDelay: "100ms" }}>
             <p className="eyebrow text-[0.65rem] sm:text-xs tracking-[0.3em] uppercase text-foreground/70">

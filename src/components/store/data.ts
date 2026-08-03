@@ -362,7 +362,7 @@ export const heroSlides = [
     desktopSrc: d2,
     mobileSrc: m2,
     desktopAlign: "right",
-    mobileAlign: "right",
+    mobileShift: "pl-12 sm:pl-0",
     mobileObjectPos: "object-center",
     headline: "Summer Breeze Collection",
     subheadline: "Lightweight & Luxurious Lawn Prints",
