@@ -41,7 +41,7 @@ export function Hero() {
         </div>
       ))}
 
-      <div className="relative z-30 mx-auto flex h-full max-w-[1400px] flex-col justify-end sm:justify-center px-6 pb-20 text-foreground lg:px-12 lg:pb-24">
+      <div className="relative z-30 mx-auto flex h-full max-w-[1400px] flex-col justify-end px-6 pb-24 sm:pb-28 lg:pb-32 text-foreground lg:px-12">
         <div 
           key={i} 
           className={`max-w-xl w-full ${slide.desktopAlign === 'right' ? 'sm:ml-auto' : ''}`}
