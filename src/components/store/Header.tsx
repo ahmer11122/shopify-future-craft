@@ -307,7 +307,7 @@ export function Header() {
       <div
         className={`border-b transition-all duration-500 ${
           light
-            ? "border-transparent bg-transparent text-background"
+            ? "border-transparent bg-transparent text-foreground"
             : "border-border/70 bg-background/95 text-foreground shadow-[0_1px_30px_-18px_rgba(0,0,0,0.5)] backdrop-blur-xl backdrop-saturate-150"
         }`}
         onMouseLeave={() => setOpen(null)}
@@ -347,7 +347,7 @@ export function Header() {
               onClick={() => setSearch(true)}
               className={`group hidden w-44 items-center gap-3 border px-4 py-2.5 text-[0.66rem] tracking-[0.1em] transition-all duration-500 ease-out hover:w-56 md:flex ${
                 light
-                  ? "border-background/35 text-background/80 hover:border-background"
+                  ? "border-foreground/35 text-foreground/80 hover:border-foreground"
                   : "border-border/80 bg-sand/40 text-muted-foreground hover:border-foreground hover:bg-background hover:text-foreground"
               }`}
             >
