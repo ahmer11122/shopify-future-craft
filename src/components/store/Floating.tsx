@@ -7,12 +7,9 @@ export function FloatingWhatsApp() {
     <a
       href="https://wa.me/920000000000"
       aria-label="Chat on WhatsApp"
-      className="group fixed bottom-6 right-5 z-50 flex items-center gap-3 overflow-hidden rounded-full border border-border/50 bg-background/85 p-3.5 shadow-2xl backdrop-blur-xl transition-all duration-500 ease-out hover:border-gold/50 hover:bg-background hover:shadow-[0_8px_30px_-10px_var(--color-gold)] sm:bottom-8 sm:right-8 sm:px-6 sm:py-4"
+      className="group fixed bottom-6 right-5 z-50 flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-border/50 bg-background/95 shadow-2xl backdrop-blur-xl transition-all duration-300 ease-out hover:scale-110 hover:border-whatsapp hover:shadow-[0_8px_30px_-10px_var(--color-whatsapp)] sm:bottom-8 sm:right-8"
     >
-      <WhatsAppGlyph className="h-6 w-6 text-foreground transition-colors duration-500 group-hover:text-gold sm:h-5 sm:w-5" />
-      <span className="hidden whitespace-nowrap text-[0.65rem] font-medium tracking-[0.2em] uppercase text-foreground transition-colors duration-500 group-hover:text-gold sm:block">
-        Client Advisory
-      </span>
+      <WhatsAppGlyph className="h-7 w-7 text-foreground transition-colors duration-300 group-hover:text-whatsapp" />
     </a>
   );
 }
