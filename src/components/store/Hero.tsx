@@ -28,7 +28,7 @@ export function Hero() {
             width={1600}
             height={900}
             loading={idx === 0 ? "eager" : "lazy"}
-            className={`hidden sm:block h-full w-full object-cover ${idx === i ? "kenburns" : ""}`}
+            className={`hidden sm:block h-full w-full object-cover object-top ${idx === i ? "kenburns" : ""}`}
           />
           <img
             src={s.mobileSrc}
@@ -36,7 +36,7 @@ export function Hero() {
             width={800}
             height={1200}
             loading={idx === 0 ? "eager" : "lazy"}
-            className={`sm:hidden h-full w-full object-cover ${idx === i ? "kenburns" : ""}`}
+            className={`sm:hidden h-full w-full object-cover object-top ${idx === i ? "kenburns" : ""}`}
           />
         </div>
       ))}
