@@ -6,14 +6,14 @@ export function Hero() {
   const [i, setI] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setI((v) => (v + 1) % heroSlides.length), 5200);
+    const t = setInterval(() => setI((v) => (v + 1) % heroSlides.length), 5500);
     return () => clearInterval(t);
   }, []);
 
   const slide = heroSlides[i];
 
   return (
-    <section id="top" className="relative h-[92svh] min-h-[560px] w-full overflow-hidden bg-foreground">
+    <section id="top" className="relative h-[92svh] min-h-[560px] w-full overflow-hidden bg-background">
       {heroSlides.map((s, idx) => (
         <div
           key={idx}
@@ -41,37 +41,43 @@ export function Hero() {
         </div>
       ))}
 
-      <div className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-t from-black/60 via-transparent to-transparent sm:bg-none" />
-
-      <div className="relative z-30 mx-auto flex h-full max-w-[1400px] flex-col justify-end sm:justify-center px-5 pb-24 text-background lg:px-10">
+      <div className="relative z-30 mx-auto flex h-full max-w-[1400px] flex-col justify-end sm:justify-center px-6 pb-28 text-foreground lg:px-12 lg:pb-32">
         <div 
           key={i} 
-          className={`max-w-2xl w-full ${slide.desktopAlign === 'right' ? 'sm:ml-auto sm:text-right' : ''}`}
+          className={`max-w-xl w-full ${slide.desktopAlign === 'right' ? 'sm:ml-auto sm:text-right' : ''}`}
         >
-          <h1 className="reveal type-display text-4xl sm:text-6xl lg:text-7xl drop-shadow-lg" style={{ animationDelay: "70ms" }}>
-            {slide.headline}
-          </h1>
-          <p
-            className={`reveal mt-4 sm:mt-7 max-w-md text-[1.05rem] leading-[1.6] text-background/90 drop-shadow-md ${slide.desktopAlign === 'right' ? 'sm:ml-auto' : ''}`}
-            style={{ animationDelay: "130ms" }}
-          >
-            {slide.subheadline}
-          </p>
+          <div className="reveal flex flex-col gap-4 sm:gap-6" style={{ animationDelay: "100ms" }}>
+            <p className="eyebrow text-[0.65rem] sm:text-xs tracking-[0.3em] uppercase text-foreground/70">
+              {slide.subheadline}
+            </p>
+            <h1 className="type-display text-5xl sm:text-6xl lg:text-[5.5rem] leading-[1.05] tracking-tight">
+              {slide.headline}
+            </h1>
+          </div>
           <div 
-            className={`reveal mt-8 sm:mt-10 flex flex-wrap items-center gap-6 ${slide.desktopAlign === 'right' ? 'sm:justify-end' : ''}`} 
-            style={{ animationDelay: "210ms" }}
+            className={`reveal mt-10 sm:mt-14 flex flex-wrap items-center gap-6 ${slide.desktopAlign === 'right' ? 'sm:justify-end' : ''}`} 
+            style={{ animationDelay: "250ms" }}
           >
-            <Link to="/collections/$handle" params={{ handle: slide.link }} className="btn-primary btn-on-dark shadow-xl hover:shadow-2xl">
-              {slide.cta}
+            <Link 
+              to="/collections/$handle" 
+              params={{ handle: slide.link }} 
+              className="group flex items-center gap-4 text-xs font-medium tracking-[0.2em] uppercase text-foreground transition-all"
+            >
+              <span className="border-b border-foreground/30 pb-1 transition-colors group-hover:border-foreground">
+                {slide.cta}
+              </span>
+              <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
             </Link>
           </div>
         </div>
 
-        <div className="absolute bottom-6 inset-x-5 lg:inset-x-10 max-w-[1400px] mx-auto flex items-end justify-between gap-8 pt-6">
+        <div className="absolute bottom-8 inset-x-6 lg:inset-x-12 max-w-[1400px] mx-auto flex items-end justify-between gap-8 pt-6">
           <div className="flex items-center gap-5">
-            <span className="num text-[0.7rem] tracking-[0.2em] text-background/80 drop-shadow-md">
+            <span className="num text-[0.65rem] tracking-[0.2em] text-foreground/50">
               {String(i + 1).padStart(2, "0")}
-              <span className="mx-2 text-background/50">/</span>
+              <span className="mx-2 text-foreground/30">/</span>
               {String(heroSlides.length).padStart(2, "0")}
             </span>
             <div className="flex gap-2">
@@ -80,8 +86,8 @@ export function Hero() {
                   key={idx}
                   aria-label={`Go to slide ${idx + 1}`}
                   onClick={() => setI(idx)}
-                  className={`h-1 transition-all duration-500 rounded-full ${
-                    idx === i ? "bg-gold w-10" : "bg-background/50 hover:bg-background/80 w-6"
+                  className={`h-px transition-all duration-700 ${
+                    idx === i ? "bg-foreground w-12" : "bg-foreground/20 hover:bg-foreground/40 w-6"
                   }`}
                 />
               ))}
