@@ -1,0 +1,22 @@
+<div class="search-overlay" data-search-overlay role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+      <span class="eyebrow">{{ 'general.search.search' | t }}</span>
+      <button class="icon-btn" data-search-close aria-label="{{ 'accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </div>
+
+    <form action="{{ routes.search_url }}" method="get" role="search">
+      <input type="search" name="q" placeholder="{{ 'general.search.placeholder' | t }}" autocomplete="off">
+      <input type="hidden" name="options[prefix]" value="last">
+    </form>
+
+    <div class="search-suggest">
+      {%- assign popular = 'Lawn,Chikankari,Unstitched,Formals,Chiffon,Under Rs. 10,000' | split: ',' -%}
+      {%- for term in popular -%}
+        <a class="chip" href="{{ routes.search_url }}?q={{ term | url_encode }}">{{ term }}</a>
+      {%- endfor -%}
+    </div>
+
+    <div data-search-results style="margin-top:2.5rem"></div>
+  </div>
+</div>

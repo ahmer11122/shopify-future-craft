@@ -1,0 +1,85 @@
+{%- liquid
+  assign threshold = settings.free_shipping_threshold | times: 100
+  assign remaining = threshold | minus: cart.total_price
+  assign pct = 0
+  if threshold > 0
+    assign pct = cart.total_price | times: 100 | divided_by: threshold
+    if pct > 100
+      assign pct = 100
+    endif
+  endif
+-%}
+
+<div class="cart-backdrop" data-cart-backdrop></div>
+
+<aside class="cart-drawer" data-cart-drawer aria-label="{{ 'cart.general.title' | t }}">
+  <div data-cart-inner style="display:flex;flex-direction:column;height:100%">
+    <div class="cart-drawer__head">
+      <span class="eyebrow">{{ 'cart.general.title' | t }} ({{ cart.item_count }})</span>
+      <button class="icon-btn" data-cart-close aria-label="{{ 'accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </div>
+
+    {%- if threshold > 0 -%}
+      <div style="padding:0.9rem var(--gutter);border-bottom:1px solid var(--border)">
+        <p class="eyebrow" style="margin-bottom:0.55rem">
+          {%- if remaining > 0 -%}
+            {{ remaining | money }} away from free shipping
+          {%- else -%}
+            You've unlocked free shipping
+          {%- endif -%}
+        </p>
+        <div class="ship-bar"><span style="width: {{ pct }}%"></span></div>
+      </div>
+    {%- endif -%}
+
+    <div class="cart-drawer__body">
+      {%- if cart.item_count == 0 -%}
+        <p class="t-lead">{{ 'cart.general.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--ghost" style="margin-top:1.25rem">{{ 'cart.general.continue' | t }}</a>
+      {%- else -%}
+        {%- for item in cart.items -%}
+          <div class="line-item">
+            <a href="{{ item.url }}">
+              <img src="{{ item | image_url: width: 200 }}" alt="{{ item.title | escape }}" width="200" height="250" loading="lazy">
+            </a>
+            <div>
+              <div style="display:flex;justify-content:space-between;gap:1rem">
+                <a href="{{ item.url }}" style="font-family:var(--font-display);font-size:1rem">{{ item.product.title }}</a>
+                <span class="price">{{ item.final_line_price | money }}</span>
+              </div>
+              {%- unless item.product.has_only_default_variant -%}
+                <p class="card__meta">{{ item.variant.title }}</p>
+              {%- endunless -%}
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.65rem">
+                <div class="qty" style="height:36px">
+                  <button data-line-change="{{ item.quantity | minus: 1 }}" data-line="{{ forloop.index }}" aria-label="Decrease">{% render 'icon', name: 'minus' %}</button>
+                  <input type="text" value="{{ item.quantity }}" readonly aria-label="{{ 'products.product.quantity' | t }}">
+                  <button data-line-change="{{ item.quantity | plus: 1 }}" data-line="{{ forloop.index }}" aria-label="Increase">{% render 'icon', name: 'plus' %}</button>
+                </div>
+                <button class="link-line" data-line-change="0" data-line="{{ forloop.index }}">{{ 'cart.general.remove' | t }}</button>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+      <div class="cart-drawer__foot">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <span class="eyebrow">{{ 'cart.general.subtotal' | t }}</span>
+          <span class="price" style="font-size:1rem">{{ cart.total_price | money }}</span>
+        </div>
+        <p class="card__meta" style="margin:0.4rem 0 1rem">{{ 'cart.general.taxes_shipping' | t }}</p>
+        <form action="{{ routes.cart_url }}" method="post">
+          <button type="submit" name="checkout" class="btn btn--full">{{ 'cart.general.checkout' | t }}</button>
+        </form>
+        <a href="{{ routes.cart_url }}" class="link-line" style="display:inline-block;margin-top:0.9rem">View bag</a>
+      </div>
+    {%- endif -%}
+  </div>
+</aside>
+
+{% schema %}
+{ "name": "Cart drawer" }
+{% endschema %}

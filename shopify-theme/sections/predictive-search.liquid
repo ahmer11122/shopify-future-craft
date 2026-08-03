@@ -1,0 +1,14 @@
+<div data-predictive-inner>
+  {%- if predictive_search.performed -%}
+    {%- if predictive_search.resources.products.size > 0 -%}
+      <p class="eyebrow" style="margin-bottom:1.25rem">Products</p>
+      <div class="grid-products">
+        {%- for product in predictive_search.resources.products -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p class="t-lead">{{ 'general.search.no_results' | t: terms: predictive_search.terms }}</p>
+    {%- endif -%}
+  {%- endif -%}
+</div>
