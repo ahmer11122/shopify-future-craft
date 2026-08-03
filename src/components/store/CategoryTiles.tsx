@@ -29,7 +29,7 @@ export function CategoryTiles() {
         </Link>
       </div>
 
-      <div className="mt-14 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:mt-16 lg:grid-cols-4 lg:gap-x-8">
+      <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 lg:mt-16 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-16">
         {featured.map((c, i) => {
           const count = productsIn(c).length;
           return (
@@ -41,7 +41,7 @@ export function CategoryTiles() {
               style={{ transitionDelay: `${i * 100}ms` }}
               className="reveal-up group flex flex-col"
             >
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-sand/30">
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-sand/30">
                 <img
                   src={c.image}
                   alt={c.title}
@@ -52,16 +52,16 @@ export function CategoryTiles() {
                 />
               </div>
 
-              <div className="mt-5 flex items-start justify-between gap-4">
+              <div className="mt-4 sm:mt-6 flex items-start justify-between gap-4">
                 <div>
-                  <h3 className="font-display text-2xl tracking-wide text-foreground group-hover:text-gold transition-colors duration-300">
+                  <h3 className="font-display text-xl sm:text-2xl lg:text-3xl tracking-wide text-foreground group-hover:text-gold transition-colors duration-300">
                     {c.title}
                   </h3>
-                  <p className="mt-1 text-xs tracking-wider text-muted-foreground">
+                  <p className="mt-1 text-[0.7rem] sm:text-xs lg:text-sm tracking-wider text-muted-foreground line-clamp-2">
                     {c.blurb}
                   </p>
                 </div>
-                <span className="num mt-1 text-[0.65rem] tracking-[0.15em] uppercase text-muted-foreground/80">
+                <span className="num mt-1 text-[0.65rem] sm:text-xs tracking-[0.15em] uppercase text-muted-foreground/80 shrink-0">
                   {String(count).padStart(2, "0")}
                 </span>
               </div>
