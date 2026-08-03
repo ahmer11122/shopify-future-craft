@@ -44,7 +44,7 @@ export function Hero() {
       <div className="relative z-30 mx-auto flex h-full max-w-[1400px] flex-col justify-end sm:justify-center px-6 pb-28 text-foreground lg:px-12 lg:pb-32">
         <div 
           key={i} 
-          className={`max-w-xl w-full ${slide.desktopAlign === 'right' ? 'sm:ml-auto sm:text-right' : ''}`}
+          className={`max-w-xl w-full ${slide.desktopAlign === 'right' ? 'sm:ml-auto' : ''}`}
         >
           <div className="reveal flex flex-col gap-4 sm:gap-6" style={{ animationDelay: "100ms" }}>
             <p className="eyebrow text-[0.65rem] sm:text-xs tracking-[0.3em] uppercase text-foreground/70">
@@ -55,7 +55,7 @@ export function Hero() {
             </h1>
           </div>
           <div 
-            className={`reveal mt-10 sm:mt-14 flex flex-wrap items-center gap-6 ${slide.desktopAlign === 'right' ? 'sm:justify-end' : ''}`} 
+            className="reveal mt-10 sm:mt-14 flex flex-wrap items-center gap-6" 
             style={{ animationDelay: "250ms" }}
           >
             <Link 
