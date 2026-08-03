@@ -16,6 +16,15 @@ import cat2 from "@/assets/cat2.jpg";
 import cat3 from "@/assets/cat3.jpg";
 import cat4 from "@/assets/cat4.jpg";
 
+import d1 from "@/assets/banners/desktop_1.webp";
+import m1 from "@/assets/banners/mobile_1.webp";
+import d2 from "@/assets/banners/desktop_2.webp";
+import m2 from "@/assets/banners/mobile_2.webp";
+import d3 from "@/assets/banners/desktop_3.webp";
+import m3 from "@/assets/banners/mobile_3.webp";
+import d4 from "@/assets/banners/desktop_4.webp";
+import m4 from "@/assets/banners/mobile_4.webp";
+
 export type Category = "Lawn" | "Formal" | "Stitched" | "Unstitched";
 
 export type Product = {
@@ -335,37 +344,41 @@ export const sizeChart = [
 
 export const heroSlides = [
   {
-    src: look1,
-    eyebrow: "Spring / Summer 2026",
-    title: "The Quiet",
-    accent: "Luxury",
-    tail: "Edit",
-    caption: "Chikankari lawn, hand-worked in Lucknow stitch",
+    desktopSrc: d1,
+    mobileSrc: m1,
+    desktopAlign: "left",
+    headline: "Elegance Redefined",
+    subheadline: "Discover Our Exquisite Formal Collection",
+    cta: "Shop Formal Wear",
+    link: "formal"
   },
   {
-    src: cat2,
-    eyebrow: "Shaadi Season",
-    title: "Zari, kept",
-    accent: "restrained",
-    tail: "",
-    caption: "Formal chiffon with antique gold thread",
+    desktopSrc: d2,
+    mobileSrc: m2,
+    desktopAlign: "right",
+    headline: "Summer Breeze Collection",
+    subheadline: "Lightweight & Luxurious Lawn Prints",
+    cta: "Shop Lawn Collection",
+    link: "lawn"
   },
   {
-    src: look4,
-    eyebrow: "Just Dropped",
-    title: "Forty-eight",
-    accent: "new",
-    tail: "pieces",
-    caption: "The unstitched edit, now shipping nationwide",
+    desktopSrc: d3,
+    mobileSrc: m3,
+    desktopAlign: "left",
+    headline: "Craft Your Style",
+    subheadline: "Premium Unstitched Fabrics Await",
+    cta: "Discover Unstitched",
+    link: "unstitched"
   },
   {
-    src: editorial,
-    eyebrow: "The Weave",
-    title: "Fabric",
-    accent: "first",
-    tail: "",
-    caption: "120+ thread count cambric, photographed unedited",
-  },
+    desktopSrc: d4,
+    mobileSrc: m4,
+    desktopAlign: "left",
+    headline: "Effortless Chic",
+    subheadline: "Ready-to-Wear for the Modern Woman",
+    cta: "Shop Pret Collection",
+    link: "stitched"
+  }
 ];
 
 /** Labels stocked in the Mehr multi-brand edit — rendered as typographic marks. */
