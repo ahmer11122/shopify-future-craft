@@ -9,15 +9,10 @@ export function Brands() {
   return (
     <section className="border-y border-border bg-sand/50 py-10 lg:py-14">
       <div className="mx-auto max-w-[1400px] px-5 lg:px-10">
-        <div data-reveal className="reveal-up flex flex-wrap items-end justify-between gap-5">
-          <div>
-            <p className="eyebrow text-muted-foreground">The Multi-Brand Edit</p>
-            <div className="rule-gold my-4" />
-            <h2 className="type-h2">Labels we stock</h2>
-          </div>
-          <p className="num max-w-xs text-[0.72rem] leading-relaxed tracking-[0.04em] text-muted-foreground">
-            08 Pakistani houses · all pieces authenticated in Lahore before dispatch
-          </p>
+        <div data-reveal className="reveal-up">
+          <p className="eyebrow text-muted-foreground">Our Designers</p>
+          <div className="rule-gold my-4" />
+          <h2 className="type-h2">Brands We Have</h2>
         </div>
       </div>
 
