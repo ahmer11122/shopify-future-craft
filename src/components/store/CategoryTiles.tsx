@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
 import { collections, productsIn } from "./data";
 
 const FEATURED_HANDLES = ["lawn", "unstitched", "stitched", "formal"];
@@ -8,24 +7,15 @@ export function CategoryTiles() {
   const featured = collections.filter((c) => FEATURED_HANDLES.includes(c.handle));
 
   return (
-    <section id="collections" className="mx-auto max-w-[1400px] px-6 py-28 lg:px-12 lg:py-36">
-      <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+    <section id="collections" className="mx-auto max-w-[1400px] px-5 py-24 lg:px-10 lg:py-32">
+      <div className="flex flex-wrap items-end justify-between gap-6">
         <div data-reveal className="reveal-up">
-          <p className="eyebrow text-[0.65rem] tracking-[0.3em] uppercase text-foreground/60">
-            Shop by Category
-          </p>
-          <h2 className="type-display mt-3 text-4xl sm:text-5xl lg:text-6xl tracking-tight">
-            The Curated Edit
-          </h2>
+          <p className="eyebrow text-muted-foreground">Shop by Category</p>
+          <div className="rule-gold my-4" />
+          <h2 className="type-h2">The Curated Edit</h2>
         </div>
-        <Link 
-          to="/collections" 
-          className="group flex items-center gap-3 text-xs font-medium tracking-[0.2em] uppercase text-foreground transition-opacity hover:opacity-70"
-        >
-          <span className="border-b border-foreground/30 pb-1 transition-colors group-hover:border-foreground">
-            Explore All Collections
-          </span>
-          <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+        <Link to="/collections" className="link-line text-[0.7rem] tracking-[0.2em] uppercase">
+          Explore All Collections
         </Link>
       </div>
 
