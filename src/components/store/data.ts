@@ -25,6 +25,11 @@ import m3 from "@/assets/banners/mobile_3.webp";
 import d4 from "@/assets/banners/desktop_4.webp";
 import m4 from "@/assets/banners/mobile_4.webp";
 
+import catFormal from "@/assets/categories/formal.webp";
+import catLawn from "@/assets/categories/lawn.webp";
+import catStitched from "@/assets/categories/stitched.webp";
+import catUnstitched from "@/assets/categories/unstitched.webp";
+
 export type Category = "Lawn" | "Formal" | "Stitched" | "Unstitched";
 
 export type Product = {
@@ -259,28 +264,28 @@ export const collections: Collection[] = [
     handle: "unstitched",
     title: "Unstitched",
     blurb: "Three piece suits, cut and stitched your own way.",
-    image: cat1,
+    image: catUnstitched,
     match: (p) => p.category === "Unstitched",
   },
   {
     handle: "stitched",
     title: "Stitched",
     blurb: "Ready to wear, measured in inches, dispatched within 24 hours.",
-    image: cat3,
+    image: catStitched,
     match: (p) => p.category === "Stitched",
   },
   {
     handle: "lawn",
     title: "Lawn",
     blurb: "Fine cambric and cotton lawn for the long Pakistani summer.",
-    image: cat4,
+    image: catLawn,
     match: (p) => p.category === "Lawn",
   },
   {
     handle: "formal",
     title: "Formals",
     blurb: "Chiffon, zari and hand embroidery for the shaadi season.",
-    image: cat2,
+    image: catFormal,
     match: (p) => p.category === "Formal",
   },
   {

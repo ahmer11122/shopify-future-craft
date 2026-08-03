@@ -48,7 +48,7 @@ export function CategoryTiles() {
                   width={600}
                   height={800}
                   loading="lazy"
-                  className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
 
