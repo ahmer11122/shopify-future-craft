@@ -2,65 +2,72 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { collections, productsIn } from "./data";
 
-const spans = [
-  "lg:col-span-3 lg:row-span-2",
-  "lg:col-span-3",
-  "lg:col-span-3",
-  "lg:col-span-2",
-  "lg:col-span-2",
-  "lg:col-span-2",
-  "lg:col-span-3",
-  "lg:col-span-3",
-  "lg:col-span-6 lg:min-h-[18rem]",
-];
+const FEATURED_HANDLES = ["lawn", "unstitched", "stitched", "formal"];
 
 export function CategoryTiles() {
+  const featured = collections.filter((c) => FEATURED_HANDLES.includes(c.handle));
+
   return (
-    <section id="collections" className="mx-auto max-w-[1400px] px-5 py-24 lg:px-10 lg:py-32">
-      <div className="flex flex-wrap items-end justify-between gap-6">
+    <section id="collections" className="mx-auto max-w-[1400px] px-6 py-28 lg:px-12 lg:py-36">
+      <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
         <div data-reveal className="reveal-up">
-          <p className="eyebrow text-muted-foreground">Shop by Category</p>
-          <div className="rule-gold my-4" />
-          <h2 className="type-h2">Every room of the store</h2>
+          <p className="eyebrow text-[0.65rem] tracking-[0.3em] uppercase text-foreground/60">
+            Shop by Category
+          </p>
+          <h2 className="type-display mt-3 text-4xl sm:text-5xl lg:text-6xl tracking-tight">
+            The Curated Edit
+          </h2>
         </div>
-        <Link to="/collections" className="link-line text-[0.7rem] tracking-[0.2em] uppercase">
-          All Collections
+        <Link 
+          to="/collections" 
+          className="group flex items-center gap-3 text-xs font-medium tracking-[0.2em] uppercase text-foreground transition-opacity hover:opacity-70"
+        >
+          <span className="border-b border-foreground/30 pb-1 transition-colors group-hover:border-foreground">
+            Explore All Collections
+          </span>
+          <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </Link>
       </div>
 
-      <div className="mt-12 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:mt-14 lg:grid-cols-6">
-        {collections.map((c, i) => (
-          <Link
-            key={c.handle}
-            to="/collections/$handle"
-            params={{ handle: c.handle }}
-            data-reveal
-            style={{ transitionDelay: `${i * 70}ms` }}
-            className={`reveal-up group relative min-h-[15rem] overflow-hidden bg-sand ${spans[i] ?? "lg:col-span-2"}`}
-          >
-            <img
-              src={c.image}
-              alt={c.title}
-              width={900}
-              height={1100}
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-foreground/10 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6">
-              <div>
-                <p className="num text-[0.6rem] tracking-[0.2em] uppercase text-background/70">
-                  {String(productsIn(c).length).padStart(2, "0")} pieces
-                </p>
-                <p className="mt-1.5 font-display text-2xl text-background lg:text-3xl">{c.title}</p>
+      <div className="mt-14 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:mt-16 lg:grid-cols-4 lg:gap-x-8">
+        {featured.map((c, i) => {
+          const count = productsIn(c).length;
+          return (
+            <Link
+              key={c.handle}
+              to="/collections/$handle"
+              params={{ handle: c.handle }}
+              data-reveal
+              style={{ transitionDelay: `${i * 100}ms` }}
+              className="reveal-up group flex flex-col"
+            >
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-sand/30">
+                <img
+                  src={c.image}
+                  alt={c.title}
+                  width={600}
+                  height={800}
+                  loading="lazy"
+                  className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                />
               </div>
-              <ArrowUpRight
-                className="h-5 w-5 shrink-0 text-background transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-                strokeWidth={1.3}
-              />
-            </div>
-          </Link>
-        ))}
+
+              <div className="mt-5 flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-display text-2xl tracking-wide text-foreground group-hover:text-gold transition-colors duration-300">
+                    {c.title}
+                  </h3>
+                  <p className="mt-1 text-xs tracking-wider text-muted-foreground">
+                    {c.blurb}
+                  </p>
+                </div>
+                <span className="num mt-1 text-[0.65rem] tracking-[0.15em] uppercase text-muted-foreground/80">
+                  {String(count).padStart(2, "0")}
+                </span>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
