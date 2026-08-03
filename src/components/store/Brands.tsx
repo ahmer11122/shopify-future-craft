@@ -7,7 +7,7 @@ import { brands } from "./data";
  */
 export function Brands() {
   return (
-    <section className="border-y border-border bg-sand/50 py-20 lg:py-28">
+    <section className="border-y border-border bg-sand/50 py-10 lg:py-14">
       <div className="mx-auto max-w-[1400px] px-5 lg:px-10">
         <div data-reveal className="reveal-up flex flex-wrap items-end justify-between gap-5">
           <div>
@@ -22,19 +22,19 @@ export function Brands() {
       </div>
 
       {/* Single-line luxury infinite marquee */}
-      <div className="marquee-mask mt-14 flex w-max items-center marquee-x-slow py-4">
+      <div className="marquee-mask mt-8 flex w-max items-center marquee-x-slow py-2 sm:mt-10">
         {[0, 1, 2].map((pass) => (
           <div key={pass} className="flex shrink-0 items-center">
             {brands.map((b) => (
               <Link
                 key={`${pass}-${b.name}`}
                 to="/collections"
-                className="group/brand flex shrink-0 items-center gap-10 px-5 sm:gap-14 sm:px-7 lg:gap-20 lg:px-10"
+                className="group/brand flex shrink-0 items-center gap-8 px-4 sm:gap-12 sm:px-6 lg:gap-16 lg:px-8"
               >
-                <span className="font-display text-3xl tracking-[0.2em] uppercase text-foreground/40 transition-all duration-500 group-hover/brand:scale-105 group-hover/brand:text-foreground sm:text-4xl lg:text-5xl">
+                <span className="font-display text-xl tracking-[0.2em] uppercase text-foreground/40 transition-all duration-500 group-hover/brand:scale-105 group-hover/brand:text-foreground sm:text-2xl lg:text-3xl">
                   {b.name}
                 </span>
-                <span className="select-none text-base text-gold/60 sm:text-lg lg:text-xl">
+                <span className="select-none text-sm text-gold/60 sm:text-base">
                   ✦
                 </span>
               </Link>
