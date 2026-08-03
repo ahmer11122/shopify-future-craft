@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowUpRight } from "lucide-react";
 import { Hero } from "@/components/store/Hero";
 import { CategoryTiles } from "@/components/store/CategoryTiles";
 import { ImageRail, TestimonialRail, Community } from "@/components/store/Marquee";
@@ -34,19 +35,25 @@ function Index() {
       <Hero />
       <CategoryTiles />
 
-      <section className="mx-auto max-w-[1400px] px-5 pb-24 lg:px-10 lg:pb-32">
-        <div className="flex flex-wrap items-end justify-between gap-6">
+      <section className="mx-auto max-w-[1400px] px-6 pb-28 lg:px-12 lg:pb-36">
+        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <div data-reveal className="reveal-up">
-            <p className="eyebrow text-muted-foreground">Just Dropped</p>
-            <div className="rule-gold my-4" />
-            <h2 className="type-h2">New Arrivals</h2>
+            <p className="eyebrow text-[0.65rem] tracking-[0.3em] uppercase text-foreground/60">
+              Just Dropped
+            </p>
+            <h2 className="type-display mt-3 text-4xl sm:text-5xl lg:text-6xl tracking-tight">
+              New Arrivals
+            </h2>
           </div>
           <Link
             to="/collections/$handle"
             params={{ handle: "new-arrivals" }}
-            className="link-line text-[0.7rem] tracking-[0.2em] uppercase"
+            className="group flex items-center gap-3 text-xs font-medium tracking-[0.2em] uppercase text-foreground transition-opacity hover:opacity-70"
           >
-            Shop all new in
+            <span className="border-b border-foreground/30 pb-1 transition-colors group-hover:border-foreground">
+              Shop all new in
+            </span>
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </Link>
         </div>
         <div className="mt-14 grid grid-cols-2 gap-x-5 gap-y-14 lg:grid-cols-4 lg:gap-x-7">
@@ -59,15 +66,24 @@ function Index() {
       <ImageRail />
       <Brands />
 
-      <section className="mx-auto max-w-[1400px] px-5 py-24 lg:px-10 lg:py-32">
-        <div className="flex flex-wrap items-end justify-between gap-6">
+      <section className="mx-auto max-w-[1400px] px-6 py-28 lg:px-12 lg:py-36">
+        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <div data-reveal className="reveal-up">
-            <p className="eyebrow text-muted-foreground">Most Loved</p>
-            <div className="rule-gold my-4" />
-            <h2 className="type-h2">Bestsellers</h2>
+            <p className="eyebrow text-[0.65rem] tracking-[0.3em] uppercase text-foreground/60">
+              Most Loved
+            </p>
+            <h2 className="type-display mt-3 text-4xl sm:text-5xl lg:text-6xl tracking-tight">
+              Bestsellers
+            </h2>
           </div>
-          <Link to="/collections" className="link-line text-[0.7rem] tracking-[0.2em] uppercase">
-            Browse everything
+          <Link
+            to="/collections"
+            className="group flex items-center gap-3 text-xs font-medium tracking-[0.2em] uppercase text-foreground transition-opacity hover:opacity-70"
+          >
+            <span className="border-b border-foreground/30 pb-1 transition-colors group-hover:border-foreground">
+              Browse everything
+            </span>
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </Link>
         </div>
         <div className="mt-14 grid grid-cols-2 gap-x-5 gap-y-14 lg:grid-cols-4 lg:gap-x-7">
