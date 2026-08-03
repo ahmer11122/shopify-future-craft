@@ -13,7 +13,7 @@ export function Hero() {
   const slide = heroSlides[i];
 
   return (
-    <section id="top" className="relative h-[92svh] min-h-[560px] w-full overflow-hidden bg-background">
+    <section id="top" className="relative h-[82svh] min-h-[500px] max-h-[760px] sm:h-[92svh] sm:min-h-[560px] sm:max-h-none w-full overflow-hidden bg-background">
       {heroSlides.map((s, idx) => (
         <div
           key={idx}
@@ -36,7 +36,7 @@ export function Hero() {
             width={800}
             height={1200}
             loading={idx === 0 ? "eager" : "lazy"}
-            className={`sm:hidden h-full w-full object-cover object-top ${idx === i ? "kenburns" : ""}`}
+            className={`sm:hidden h-full w-full object-cover ${(s as any).mobileObjectPos || "object-center"}`}
           />
         </div>
       ))}

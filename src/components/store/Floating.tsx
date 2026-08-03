@@ -25,7 +25,7 @@ export function EmailBar() {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur">
+    <div className="hidden sm:block fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-4 px-5 py-4 lg:px-10">
         <p className="text-[0.78rem] text-muted-foreground">
           <span className="text-foreground">Get 10% off your first order.</span> Early access to every drop.
