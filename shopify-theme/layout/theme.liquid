@@ -32,6 +32,24 @@
 
     {{ 'mehr.css' | asset_url | stylesheet_tag }}
 
+    {%- style -%}
+      :root {
+        --bg: {{ settings.color_background }};
+        --surface: {{ settings.color_surface }};
+        --ink: {{ settings.color_text }};
+        --muted: {{ settings.color_muted }};
+        --border: {{ settings.color_border }};
+        --gold: {{ settings.color_accent }};
+        --font-display: {{ settings.heading_font }};
+        --page: {{ settings.page_width }}px;
+        --heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+        --body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+        --logo-w: {{ settings.logo_width }}px;
+      }
+    {%- endstyle -%}
+
+    <script>window.mehrCurrency = {{ shop.currency | json }};</script>
+
     <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
     <script src="{{ 'mehr.js' | asset_url }}" defer></script>
 
