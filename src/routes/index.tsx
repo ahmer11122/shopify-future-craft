@@ -3,7 +3,6 @@ import { Hero } from "@/components/store/Hero";
 import { CategoryTiles } from "@/components/store/CategoryTiles";
 import { ImageRail, TestimonialRail, Community } from "@/components/store/Marquee";
 import { Brands } from "@/components/store/Brands";
-import { FAQ } from "@/components/store/FAQ";
 import { EmailBar } from "@/components/store/Floating";
 import { ProductCard } from "@/components/store/ProductCard";
 import { products } from "@/components/store/data";
@@ -79,7 +78,6 @@ function Index() {
       </section>
 
       <TestimonialRail />
-      <FAQ />
       <Community />
       <EmailBar />
     </>
