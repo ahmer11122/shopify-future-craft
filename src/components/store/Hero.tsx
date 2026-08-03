@@ -83,21 +83,7 @@ export function Hero() {
             </div>
           </div>
 
-          <dl className="hidden gap-12 sm:flex">
-            {[
-              ["24", "hrs", "Dispatch"],
-              ["4.8", "/5", "2,140 reviews"],
-              ["COD", "", "Nationwide"],
-            ].map(([k, s, v]) => (
-              <div key={v}>
-                <dt className="num font-display text-2xl text-background">
-                  {k}
-                  <span className="text-base text-background/50">{s}</span>
-                </dt>
-                <dd className="mt-1 text-[0.62rem] tracking-[0.16em] uppercase text-background/55">{v}</dd>
-              </div>
-            ))}
-          </dl>
+
         </div>
       </div>
     </section>

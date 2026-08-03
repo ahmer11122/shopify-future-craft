@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/store/Hero";
-import { TrustBand } from "@/components/store/TrustBand";
 import { CategoryTiles } from "@/components/store/CategoryTiles";
 import { ImageRail, TestimonialRail, Community } from "@/components/store/Marquee";
 import { Brands } from "@/components/store/Brands";
@@ -33,7 +32,6 @@ function Index() {
   return (
     <>
       <Hero />
-      <TrustBand />
       <CategoryTiles />
 
       <section className="mx-auto max-w-[1400px] px-5 pb-24 lg:px-10 lg:pb-32">
