@@ -1,0 +1,33 @@
+<div class="announcement" role="region" aria-label="Announcements">
+  <div class="announcement__track">
+    {%- for i in (1..2) -%}
+      <div class="announcement__group" {% if i == 2 %}aria-hidden="true"{% endif %}>
+        {%- for block in section.blocks -%}
+          <span class="announcement__item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "Free shipping over Rs. 5,000" }]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "message", "settings": { "text": "Cash on delivery nationwide" } },
+      { "type": "message", "settings": { "text": "Free shipping over Rs. 5,000" } },
+      { "type": "message", "settings": { "text": "7 day exchange" } },
+      { "type": "message", "settings": { "text": "Dispatched from Lahore" } }
+    ]
+  },
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

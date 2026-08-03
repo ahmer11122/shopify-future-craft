@@ -1,0 +1,136 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+-%}
+
+<header class="header-wrap">
+  <div class="header" data-header>
+    <div class="wrap">
+      <div class="header__inner">
+        <nav class="header__nav" aria-label="Primary">
+          {%- for link in menu.links -%}
+            <div class="nav-item" style="position: static;">
+              <a href="{{ link.url }}" class="nav-link" {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>
+
+              {%- if link.links.size > 0 -%}
+                <div class="mega">
+                  <div class="wrap">
+                    <div class="mega__grid">
+                      {%- for child in link.links limit: 3 -%}
+                        <div class="mega__col">
+                          <h4>{{ child.title }}</h4>
+                          <ul>
+                            {%- if child.links.size > 0 -%}
+                              {%- for grand in child.links -%}
+                                <li><a href="{{ grand.url }}">{{ grand.title }}</a></li>
+                              {%- endfor -%}
+                            {%- else -%}
+                              <li><a href="{{ child.url }}">Shop {{ child.title | downcase }}</a></li>
+                            {%- endif -%}
+                          </ul>
+                        </div>
+                      {%- endfor -%}
+
+                      {%- for block in section.blocks -%}
+                        {%- if block.settings.menu_title == link.title -%}
+                          <a class="mega__feature" href="{{ block.settings.link | default: link.url }}" {{ block.shopify_attributes }}>
+                            {%- if block.settings.image -%}
+                              <img src="{{ block.settings.image | image_url: width: 700 }}" alt="{{ block.settings.label | escape }}" width="700" height="525" loading="lazy">
+                            {%- else -%}
+                              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                            {%- endif -%}
+                            <span>{{ block.settings.label }}</span>
+                          </a>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </nav>
+
+        <button class="icon-btn burger" data-mobile-nav-toggle aria-label="{{ 'accessibility.menu' | t }}" style="justify-self:start">
+          {% render 'icon', name: 'menu' %}
+        </button>
+
+        <a href="{{ routes.root_url }}" class="header__logo">
+          {%- if settings.logo -%}
+            <img src="{{ settings.logo | image_url: width: 500 }}" alt="{{ shop.name | escape }}" width="500" height="120">
+          {%- else -%}
+            {{ shop.name }}
+          {%- endif -%}
+        </a>
+
+        <div class="header__actions">
+          <button class="icon-btn" data-search-open aria-label="{{ 'general.search.search' | t }}">
+            {% render 'icon', name: 'search' %}
+          </button>
+          <a href="{{ routes.account_url }}" class="icon-btn" aria-label="Account">
+            {% render 'icon', name: 'user' %}
+          </a>
+          <a href="{{ routes.cart_url }}" class="icon-btn" data-cart-open aria-label="{{ 'accessibility.cart' | t }}" style="position:relative">
+            {% render 'icon', name: 'bag' %}
+            <span class="cart-count" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mnav" data-mobile-nav>
+  <div style="display:flex;justify-content:space-between;align-items:center;min-height:var(--header-h)">
+    <span class="eyebrow">{{ 'accessibility.menu' | t }}</span>
+    <button class="icon-btn" data-mobile-nav-toggle aria-label="{{ 'accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+  </div>
+  <div style="margin-top:1rem">
+    {%- for link in menu.links -%}
+      {%- if link.links.size > 0 -%}
+        <details class="mnav__details">
+          <summary class="mnav__link" style="display:flex;justify-content:space-between;align-items:center">
+            {{ link.title }} {% render 'icon', name: 'chevron-down' %}
+          </summary>
+          <div class="mnav__sub" style="padding-block:0.6rem">
+            {%- for child in link.links -%}
+              <a href="{{ child.url }}">{{ child.title }}</a>
+              {%- for grand in child.links -%}
+                <a href="{{ grand.url }}" style="padding-left:1rem">{{ grand.title }}</a>
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        </details>
+      {%- else -%}
+        <a class="mnav__link" href="{{ link.url }}">{{ link.title }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  <div style="margin-top:2rem;display:grid;gap:0.75rem">
+    <a href="{{ routes.account_url }}" class="link-line">Account</a>
+    {%- if settings.whatsapp_number != blank -%}
+      <a href="https://wa.me/{{ settings.whatsapp_number }}" class="link-line">WhatsApp us</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Mega menu image",
+      "settings": [
+        { "type": "text", "id": "menu_title", "label": "Attach to top-level menu item (exact title)" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "label", "label": "Label", "default": "The New Edit" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}
